@@ -1,7 +1,8 @@
+package util
+
 import scala.util.Random
 import model.{Customer, Item, Order}
 import model.orderStatus.inProgress
-import model.satisfaction.happy
 
 object RandomGenerator:
 
@@ -46,4 +47,4 @@ object RandomGenerator:
   def generateRandomCustomer(): Customer=
     val name = generateRandomCustomerName()
     val order = generateRandomOrder()
-    Customer(name, order, happy)
+    Customer(name, order, 3)
