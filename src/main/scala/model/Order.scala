@@ -1,6 +1,6 @@
 package model
 
-case class Order(orderID: String, status:orderStatus, items:List[Item], timeLeft: Double)
+case class Order(status:orderStatus, items:List[Item], orderTimeLeft: Int)
 
 enum orderStatus:
-  case inprogress, done, expired
+  case inProgress, done, expired
