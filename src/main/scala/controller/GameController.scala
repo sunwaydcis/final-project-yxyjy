@@ -1,20 +1,16 @@
 package controller
 
 import model.{Customer,Order, Item}
-import scala.util.Random
+import util.RandomGenerator
 
 abstract class GameController:
 
-  // initial variables in a new game
-  private var customers: List[Customer] = List.empty
+  // create initial list of customers and use customer controller operations to handle like customer entering and leaving
+  private var totalCustomerList: List[Customer] = List()
+  for i <- 1 to 20 do
+    totalCustomerList = totalCustomerList :+ RandomGenerator.generateRandomCustomer()
+    
+    
   private var score:Int = 0
   private var timeLeft: Int = 400
-
-  //method to generate new order - or use util class to generate random
-  def randomOrder():Order
-    //set two or three items for the order (randomly)
-
-    //set orderTimeLeft
-
-
 
