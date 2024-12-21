@@ -1,14 +1,15 @@
 package model
 
-import model.orderStatus.inProgress
+import model.status.inProgress
+import controller.OrderController
 
 case class Order(items:List[Item], orderTimeLeft: Int):
-  var status: orderStatus = inProgress
-  var itemsCorrect: Int = 0
-  def orderTotal(): Double =
-    items.map(_.price).sum
+  var orderStatus: status = inProgress
+  var orderTotal: Double = 0
 
-enum orderStatus:
+enum status:
   case inProgress, done, expired
+
+
 
 

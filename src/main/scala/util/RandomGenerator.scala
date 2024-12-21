@@ -2,14 +2,13 @@ package util
 
 import scala.util.Random
 import model.{Customer, Item,Order}
-import model.orderStatus.inProgress
 
 object RandomGenerator:
 
   //menu items
   val menuItems: List[Item] = List(
-    Item ("Latte", 6.00, List("espresso", "milk") ),
-    Item ("Iced Latte", 6.50, List("espresso", "milk", "ice") ),
+    Item ("Latte", 6.00, List("espresso", "milk")),
+    Item ("Iced Latte", 6.50, List("espresso", "milk", "ice")),
     Item ("Espresso", 4.00, List("espresso")),
     Item ("Americano", 5.00, List("espresso", "water")),
     Item ("Iced Americano", 5.50, List("espresso", "water","ice")),

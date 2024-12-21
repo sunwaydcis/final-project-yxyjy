@@ -2,19 +2,28 @@ import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
 import util.RandomGenerator
 import model.{Customer, Order, Item}
-import controller.CustomerController
+import controller.{CustomerController, OrderController}
 
 object CafeGame extends JFXApp3:
 
   override def start(): Unit =
-    stage = new PrimaryStage()
 
-    val o1 = RandomGenerator.generateRandomOrder()
-    val c1 = RandomGenerator.generateRandomCustomer()
-    println(o1)
-    println(o1.orderTotal())
-    println("First Customer")
-    println(c1)
-    println(c1.payment)
+    val item1 = RandomGenerator.menuItems(0)
+    val item2 = RandomGenerator.menuItems(1)
+
+    val order1 = Order(List(item1,item2), 0)
+    println (order1)
+
+    val preparedItems = List(List("espresso", "milk"),List("milk", "ice", "espresso"))
+    println (preparedItems)
+
+    OrderController().orderCorrect(preparedItems, order1)
+    OrderController().orderExpired(order1)
+
+    println(order1.orderStatus)
+
+    println(order1.orderTotal)
+
+
 
 end CafeGame
