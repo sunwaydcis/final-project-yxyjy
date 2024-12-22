@@ -1,7 +1,9 @@
 package controller
 
-import model.Customer
+import model.{Customer, Order}
 import util.RandomGenerator
+import controller.OrderController
+import model.status.{expired, done}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -13,12 +15,12 @@ class CustomerController(totalCustomers: List[Customer]):
   var nextCustomerIndex:Int = 3
 
   //if customer leaves, add next customer from total customers list
-  def nextCustomer(index: Int): Unit =
+  def customerLeaves(index: Int): Unit =
+    //customer removed from active customers list
     activeCustomers.remove(index)
     if nextCustomerIndex < totalCustomers.size then
       activeCustomers.append(totalCustomers(nextCustomerIndex))
       nextCustomerIndex += 1
-
 
 
 

@@ -40,7 +40,7 @@ object RandomGenerator:
   def generateRandomOrder(): Order=
     val item1 = generateRandomMenuItem()
     val item2 = generateRandomMenuItem()
-    Order(List(item1, item2), 20)
+    Order(List(item1, item2))
 
   //generate random customer name
   def generateRandomCustomerName(): String =

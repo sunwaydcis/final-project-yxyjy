@@ -3,7 +3,8 @@ package model
 import model.status.inProgress
 import controller.OrderController
 
-case class Order(items:List[Item], orderTimeLeft: Int):
+case class Order(items:List[Item]):
+  var orderTimeLeft: Int = 20
   var orderStatus: status = inProgress
   var orderTotal: Double = 0
 

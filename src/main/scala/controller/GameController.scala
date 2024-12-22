@@ -1,16 +1,43 @@
 package controller
 
-import model.{Customer,Order, Item}
+import model.{Customer, Item, Order}
 import util.RandomGenerator
+import controller.{CustomerController, OrderController}
 
-abstract class GameController:
+import scala.collection.mutable.ArrayBuffer
 
-  // create initial list of customers and use customer controller operations to handle like customer entering and leaving
-  private var totalCustomerList: List[Customer] = List()
+class GameController:
+  //generate intial game time and money earned 
+  var gameTimeLeft: Int = 400
+  var moneyEarned: Double = 0.0
+  
+  // generate customers queue
+  var totalCustomerList: List[Customer] = List()
   for i <- 1 to 20 do
     totalCustomerList = totalCustomerList :+ RandomGenerator.generateRandomCustomer()
-    
-    
-  private var score:Int = 0
-  private var timeLeft: Int = 400
+
+  val custCtrl = new CustomerController(totalCustomerList)
+
+  var activeCustomers: ArrayBuffer[Customer] = custCtrl.activeCustomers
+  var nextCustomerIndex: Int = custCtrl.nextCustomerIndex
+  
+  //generate orders queue
+  val orderCtrl = new OrderController()
+  
+  var activeOrders: ArrayBuffer[Order] = orderCtrl.activeOrders
+  for i <- 0 to activeOrders.size do
+    activeOrders += activeCustomers(i).order
+
+
+
+
+
+
+
+
+
+
+
+
+
 
