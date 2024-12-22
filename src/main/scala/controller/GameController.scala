@@ -7,25 +7,26 @@ import controller.{CustomerController, OrderController}
 import scala.collection.mutable.ArrayBuffer
 
 class GameController:
-  //generate intial game time and money earned 
+  //initial game time and money earned
   var gameTimeLeft: Int = 400
   var moneyEarned: Double = 0.0
-  
+
   // generate customers queue
   var totalCustomerList: List[Customer] = List()
   for i <- 1 to 20 do
     totalCustomerList = totalCustomerList :+ RandomGenerator.generateRandomCustomer()
 
+  //initiate controllers
   val custCtrl = new CustomerController(totalCustomerList)
+  val orderCtrl = new OrderController()
 
+  //generate first three active customers
   var activeCustomers: ArrayBuffer[Customer] = custCtrl.activeCustomers
   var nextCustomerIndex: Int = custCtrl.nextCustomerIndex
-  
-  //generate orders queue
-  val orderCtrl = new OrderController()
-  
+
+  //generate orders queue -  the orders of the first three customers
   var activeOrders: ArrayBuffer[Order] = orderCtrl.activeOrders
-  for i <- 0 to activeOrders.size do
+  for i <- activeCustomers.indices do
     activeOrders += activeCustomers(i).order
 
 

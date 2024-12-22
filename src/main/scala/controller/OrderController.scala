@@ -10,10 +10,14 @@ import scala.collection.mutable.ArrayBuffer
 class OrderController:
 
   //keeps an arrayBuffer of active customers' orders
-  val activeOrders: ArrayBuffer[Order] = ArrayBuffer()
+  var activeOrders: ArrayBuffer[Order] = ArrayBuffer()
 
+  def addOrder(order: Order): Unit =
+    activeOrders += order
 
-
+  def removeOrder(index: Int): Unit =
+    //customer removed from active customers list
+    activeOrders.remove(index)
 
   //check if player prepared item correctly
   private def isItemCorrect(preparedItem: List[String], item:Item):Boolean=
@@ -51,4 +55,6 @@ class OrderController:
   def updateOrderTimeLeft(order:Order): Unit=
     if order.orderTimeLeft > 0 then
       order.orderTimeLeft -= 1
+
+
 

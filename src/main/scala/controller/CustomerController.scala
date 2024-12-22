@@ -22,6 +22,15 @@ class CustomerController(totalCustomers: List[Customer]):
       activeCustomers.append(totalCustomers(nextCustomerIndex))
       nextCustomerIndex += 1
 
+  //handles if customer is leaving as their order expires / is done and calls customerLeaves()
+  def handleCustomerLeaves(i: Int =  -1):Unit =
+    if i >= 0 && i< activeCustomers.size then
+      if activeCustomers(i).order.orderStatus == done || activeCustomers(i).order.orderStatus == expired then
+        customerLeaves(i)
+
+
+
+
 
 
 
