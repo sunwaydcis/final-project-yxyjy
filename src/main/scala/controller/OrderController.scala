@@ -25,6 +25,10 @@ class OrderController:
     if index >= 0 && index < activeOrders.size then
       activeOrders.remove(index)
 
+  def removeCustomerOrder(order:Order): Unit =
+    if activeOrders.contains(order) then
+      activeOrders -= order
+
   //update the order's remaining time if order is in activeOrders list
   def updateOrderTimeLeft(order: Order): Unit =
     if order.orderTimeLeft > 0 && isOrderActive(order) then
