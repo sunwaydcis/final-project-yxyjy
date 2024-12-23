@@ -1,7 +1,6 @@
 package controller
 
 import model.{Customer, Order}
-import util.RandomGenerator
 import controller.OrderController
 import model.status.{expired, done}
 
