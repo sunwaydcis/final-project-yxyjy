@@ -1,6 +1,6 @@
 package util
 
-import controller.{CustomerController, GameController, OrderController}
+import view.{CustomerController, GameController, OrderController}
 import scalafx.animation.AnimationTimer
 import scalafx.animation
 

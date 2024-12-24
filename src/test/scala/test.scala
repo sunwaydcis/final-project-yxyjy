@@ -1,10 +1,10 @@
-import scalafx.application.{JFXApp3, Platform}
-import scalafx.application.JFXApp3.PrimaryStage
+import scalafx.application.Platform
 import util.{RandomGenerator, Timer}
 import model.{Customer, Item, Order}
-import controller.{CustomerController, GameController, OrderController}
+import view.{CustomerController, GameController, OrderController}
 
 import scala.collection.mutable.ArrayBuffer
+import scala.io.StdIn
 
 object test:
 
@@ -44,11 +44,19 @@ object test:
       for item <- activeCusts do
         println(item)
   
+      Timer.startTimer(60, oCtrl, cCtrl)
+
       println("Your orders of the day: ")
       for item <- activeOrders do
         println(item)
-  
-      Timer.startTimer(15, oCtrl, cCtrl)
+
+      println("Make order: ")
+      val makeOrderIndex: Int = StdIn.readInt()
+
+      oCtrl.evaluatePlayerOrder(makeOrderIndex)
+
+      
+      
   )
 
 end test

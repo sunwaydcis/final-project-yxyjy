@@ -1,7 +1,7 @@
 package model
 
 import model.status.inProgress
-import controller.OrderController
+import view.OrderController
 
 case class Order(items:List[Item]):
   var orderTimeLeft: Int = 20
