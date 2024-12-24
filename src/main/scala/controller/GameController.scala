@@ -17,8 +17,8 @@ class GameController:
     totalCustomerList = totalCustomerList :+ RandomGenerator.generateRandomCustomer()
 
   //initiate controllers
-  val custCtrl = new CustomerController(totalCustomerList)
-  val orderCtrl = new OrderController()
+  val orderCtrl = new OrderController
+  val custCtrl = new CustomerController(totalCustomerList, orderCtrl)
 
   //generate first three active customers
   var activeCustomers: ArrayBuffer[Customer] = custCtrl.activeCustomers

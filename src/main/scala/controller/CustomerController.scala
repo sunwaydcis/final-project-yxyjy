@@ -24,7 +24,7 @@ class CustomerController(totalCustomers: List[Customer], orderCtrl : OrderContro
       nextCustomerIndex += 1
 
   //manage customer queue
-  def handleCustomerQueue (customer:Customer): Unit =
+  def handleCustomerQueue (): Unit =
     for i <- activeCustomers.indices.reverse do
       val activeCust = activeCustomers(i)
       if activeCust.order.orderStatus == done || activeCust.order.orderStatus == expired then
