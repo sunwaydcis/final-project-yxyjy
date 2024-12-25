@@ -1,14 +1,14 @@
-package view
+package cafe.controller
 
-import model.{Customer, Item, Order}
-import util.RandomGenerator
-import view.{CustomerController, OrderController}
+import cafe.model.{Customer, Item, Order}
+import cafe.util.{RandomGenerator, Timer}
 
 import scala.collection.mutable.ArrayBuffer
+import scala.io.StdIn
 
 class GameController:
   //initial game time and money earned
-  var gameTimeLeft: Int = 400
+  var gameTimeLeft: Int = 60
   var moneyEarned: Double = 0.0
 
   // generate customers queue
@@ -28,6 +28,31 @@ class GameController:
   var activeOrders: ArrayBuffer[Order] = orderCtrl.activeOrders
   for i <- activeCustomers.indices do
     activeOrders += activeCustomers(i).order
+
+  //game start
+  def startGame(): Unit =
+    // Start the timer asynchronously
+   // new Thread(() => Timer.startTimer(60, orderCtrl, custCtrl)).start()
+
+    // Start the game flow asynchronously
+    new Thread(() => gameFlow()).start()
+
+  def gameFlow(): Unit =
+    println("Your orders of the day: ")
+    for order <- activeOrders do
+      println("Order: ")
+      for item <- order.items do
+        println(item.name)
+
+    println("Make order: ")
+    val makeOrderIndex: Int = StdIn.readInt()
+
+    orderCtrl.evaluatePlayerOrder(makeOrderIndex)
+
+
+
+
+
 
 
 

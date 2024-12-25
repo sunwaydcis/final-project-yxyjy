@@ -1,7 +1,7 @@
-package util
+package cafe.util
 
+import cafe.model.{Customer, Item, Order}
 import scala.util.Random
-import model.{Customer, Item,Order}
 
 object RandomGenerator:
 

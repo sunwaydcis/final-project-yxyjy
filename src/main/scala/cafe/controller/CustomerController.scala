@@ -1,8 +1,7 @@
-package view
+package cafe.controller
 
-import model.{Customer, Order}
-import view.OrderController
-import model.status.{expired, done}
+import cafe.model.{Customer, Order}
+import cafe.model.status.{expired, done}
 import scala.collection.mutable.ArrayBuffer
 
 //handle customer related operations - customer comes into shop (becomes active - added into active list), customer leaves shop (removed from active list)

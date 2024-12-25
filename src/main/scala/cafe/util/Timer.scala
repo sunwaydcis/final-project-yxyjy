@@ -1,6 +1,6 @@
-package util
+package cafe.util
 
-import view.{CustomerController, GameController, OrderController}
+import cafe.controller.{CustomerController, GameController, OrderController}
 import scalafx.animation.AnimationTimer
 import scalafx.animation
 
@@ -15,16 +15,16 @@ object Timer:
                 ): Unit =
 
     var timeLeft = gameTime
-    var lastUpdateTime: Long = 0
+    var lastUpdateTime: Long = System.nanoTime()
 
     // Start the timer
     timer.start()
 
     lazy val timer: AnimationTimer = AnimationTimer { now =>
-      if lastUpdateTime == 0 || now - lastUpdateTime >= 1e9 then
+      if (now - lastUpdateTime) >= 1e9.toLong then { // If 1 second has passed
         lastUpdateTime = now
         timeLeft -= 1
-        println(timeLeft)
+        println(s"Time left: $timeLeft")
 
         orderCtrl.updateActiveOrders()
         custCtrl.handleCustomerQueue()
@@ -32,6 +32,7 @@ object Timer:
         if timeLeft <= 0 then
           println("game over!")
           timer.stop() // Stop the timer when time is up
+      }
     }
 
 

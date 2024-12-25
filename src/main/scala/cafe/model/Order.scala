@@ -1,7 +1,7 @@
-package model
+package cafe.model
 
-import model.status.inProgress
-import view.OrderController
+import cafe.controller.OrderController
+import status.inProgress
 
 case class Order(items:List[Item]):
   var orderTimeLeft: Int = 20

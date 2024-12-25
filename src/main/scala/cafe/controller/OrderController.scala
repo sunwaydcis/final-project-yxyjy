@@ -1,7 +1,7 @@
-package view
+package cafe.controller
 
-import model.status.{done, expired, inProgress}
-import model.{Customer, Item, Order}
+import cafe.model.{Customer, Item, Order}
+import cafe.model.status.{done, expired, inProgress}
 
 import scala.collection.mutable.ArrayBuffer
 import scala.io.StdIn
@@ -40,61 +40,87 @@ class OrderController:
   private def orderDone(order: Order): Unit =
     if isOrderActive(order) && order.orderStatus != expired then
       order.orderStatus = done
+      println("Order done!")
 
-  def orderExpired(order:Order): Unit =
+  private def orderExpired(order:Order): Unit =
     if isOrderActive(order) && order.orderTimeLeft == 0  && order.orderStatus != done then
       order.orderStatus = expired
+      println("Order expired!")
 
   //check if players made orders correctly
   private def isItemCorrect(preparedItem: List[String], item: Item): Boolean = //validate each item
     preparedItem.sorted == item.ingredients.sorted
 
-  def orderCorrect(preparedItems: List[List[String]], order: Order): Unit = //validate entire order : how many items correct, set order as done
+  private def orderCorrect(preparedItems: List[List[String]], order: Order): Unit = //validate entire order : how many items correct, set order as done
     val item1Correct = isItemCorrect(preparedItems.head, order.items.head)
     val item2Correct = isItemCorrect(preparedItems(1), order.items(1))
     order.orderTotal = 0
 
     if item1Correct then
       order.orderTotal += order.items.head.price
+      println("Item served!")
+    else
+      println("Ugh, not what the customer wanted!")
+
     if item2Correct then
       order.orderTotal += order.items(1).price
+      println("Item served!")
+    else
+      println("Ugh, not what the customer wanted!")
 
     orderDone(order)
 
-  def evaluatePlayerOrder(index: Int):Unit =
-    var done: Int = -1
-    var choice: Int = -1
-    val playerItem1: List[String] = List[String]()
-    val playerItem2: List[String] = List[String]()
+  def evaluatePlayerOrder(index: Int): Unit = {
+    var orderDone: Int = -1
+    var itemDone: Int = -1
+    var orderChoice: Int = -1
+    var itemChoice: Int = -1
+    var playerItem1: List[String] = List[String]()
+    var playerItem2: List[String] = List[String]()
 
-    while done == -1 do
-      println("Make item: ")
-      choice = StdIn.readInt()
-      if choice == 1 then
-        println("Add ingredient: ")
-        val ingredient = StdIn.readLine()
-        playerItem1 +: ingredient
-        println("-1 to continue")
-        done = StdIn.readInt()
-      else if choice == 2 then
-        println("Add ingredient: ")
-        val ingredient = StdIn.readLine()
-        playerItem2 +: ingredient
-        println("-1 to continue")
-        done = StdIn.readInt()
+    println("Make order: ")
+    orderChoice = StdIn.readInt()-1
 
-    val playerOrder: List[List[String]] = List(playerItem1, playerItem2)
+    val orderChoiceOrder: Order = activeOrders(orderChoice)
 
-    orderCorrect(playerOrder, activeOrders(index))
+    if (activeOrders.contains(orderChoiceOrder)) {
 
+      while (orderDone == -1) {
+        println("Make item: ")
+        itemChoice = StdIn.readInt()
 
+        if (itemChoice == 1) {
+          // Handle ingredients for item 1
+          while (itemDone == -1) {
+            println("Add ingredient to item 1: ")
+            val ingredient = StdIn.readLine()
+            playerItem1 = playerItem1 :+ ingredient
+            println("-1 to continue adding ingredients to item 1")
+            itemDone = StdIn.readInt()
+          }
+        }
 
+        if (itemChoice == 2) {
+          // Handle ingredients for item 2
+          while (itemDone == -1) {
+            println("Add ingredient to item 2: ")
+            val ingredient = StdIn.readLine()
+            playerItem2 = playerItem2 :+ ingredient
+            println("-1 to continue adding ingredients to item 2")
+            itemDone = StdIn.readInt()
+          }
+        }
 
+        // Prompt to finish the order
+        println("0 to finish the order, -1 to select another item")
+        orderDone = StdIn.readInt()
+      }
 
-      
-
-
-
+      // After finishing the order, compare the player’s items with the active order
+      val playerOrder: List[List[String]] = List(playerItem1, playerItem2)
+      orderCorrect(playerOrder, activeOrders(index-1))
+    }
+  }
 
 
   //update all active orders' status accordingly - to be called in Timer

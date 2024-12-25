@@ -1,0 +1,35 @@
+.background {
+    -fx-background-image: url(../cafe.media/cafebg.png);
+    -fx-background-size: 100% 100%;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+}
+
+.orderBackground{
+    -fx-background-color: #F3F6EB;
+    -fx-background-image: url(../cafe.media/orderbg.png);
+    -fx-background-size: 100% 100%;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+}
+
+.orderTitle{
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 22px;
+    -fx-text-fill: #568366;
+}
+
+.itemLabel{
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 12px;
+    -fx-text-fill: #568366;
+}
+
+.stackPane{
+    -fx-background-image: url(../cafe.media/tray.png);
+    -fx-background-size: 100% 50%;
+    -fx-background-repeat: no-repeat;
+}
+
+
+
