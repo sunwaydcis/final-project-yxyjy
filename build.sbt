@@ -14,7 +14,7 @@ lazy val root = (project in file("."))
         case n if n.startsWith("Windows") => "win"
         case _                            => throw new Exception("Unknown platform!")
       }
-      Seq("base", "controls", "fxml", "graphics", "cafe.media", "swing", "web")
+      Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
         .map(m => "org.openjfx" % s"javafx-$m" % "21.0.4" classifier osName)
     },
     libraryDependencies ++= Seq(
@@ -22,7 +22,12 @@ lazy val root = (project in file("."))
       "org.scalikejdbc" %% "scalikejdbc"       % "4.3.0",
       "com.h2database"  %  "h2"                % "2.2.224",
       "org.apache.derby" % "derby" % "10.17.1.0",
-      "org.apache.derby" % "derbytools" % "10.17.1.0")
+      "org.apache.derby" % "derbytools" % "10.17.1.0",
+      "org.openjfx" % "javafx-media" % "21.0.4",
+      "org.openjfx" % "javafx-base" % "21.0.4",
+      "org.openjfx" % "javafx-controls" % "21.0.4"
+    )
+
   )
 //enable for sbt-assembly
 //assembly / assemblyMergeStrategy := {

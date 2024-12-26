@@ -1,8 +1,9 @@
 .background {
     -fx-background-image: url(../cafe.media/cafebg.png);
-    -fx-background-size: 100% 100%;
-    -fx-background-position: center -80;
+    -fx-background-size: 96% 100%;
+    -fx-background-position: center -100px;
     -fx-background-repeat: no-repeat;
+    -fx-background-color: #e1d4c2;
 }
 
 .orderBackground{
@@ -64,6 +65,28 @@
     -fx-font-weight: 700;
 }
 
+.orderPreviewArea{
+    -fx-background-color: #438a72;
+    -fx-padding: 10px 5x;
+    -fx-background-radius: 10px;
+}
+
+.orderPreview{
+    -fx-background-image: url(../cafe.media/orderprevbg.png);
+    -fx-background-size: 100% 100%;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-pref-width: 70px;
+    -fx-pref-height: 90px;
+    -fx-content-display: GRAPHIC_ONLY;
+    -fx-end-margin: 5px;
+    -fx-start-margin: 5px;
+}
+
+.orderPreview:focused{
+    -fx-border-color: white;
+}
+
 /*Button images*/
 .milkBtn{
     -fx-background-image: url(../cafe.media/milk.png);
@@ -71,6 +94,11 @@
     -fx-background-repeat: no-repeat;
     -fx-background-color: none;
     -fx-cursor: pointer;
+}
+
+.ingredientBtn:hover{
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
 }
 
 

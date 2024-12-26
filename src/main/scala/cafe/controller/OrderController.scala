@@ -51,7 +51,7 @@ class OrderController:
   private def isItemCorrect(preparedItem: List[String], item: Item): Boolean = //validate each item
     preparedItem.sorted == item.ingredients.sorted
 
-  private def orderCorrect(preparedItems: List[List[String]], order: Order): Unit = //validate entire order : how many items correct, set order as done
+  def orderCorrect(preparedItems: List[List[String]], order: Order): Unit = //validate entire order : how many items correct, set order as done
     val item1Correct = isItemCorrect(preparedItems.head, order.items.head)
     val item2Correct = isItemCorrect(preparedItems(1), order.items(1))
     order.orderTotal = 0

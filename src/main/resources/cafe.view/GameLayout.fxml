@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
@@ -10,8 +12,15 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="background" stylesheets="@../cafe.css/CafeGameTheme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cafe.controller.GameLayoutController">
    <children>
-      <Button fx:id="milk" contentDisplay="GRAPHIC_ONLY" graphicTextGap="1.0" layoutX="810.0" layoutY="252.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="38.0" styleClass="milkBtn" stylesheets="@../cafe.css/CafeGameTheme.css" text="milk" textFill="TRANSPARENT" AnchorPane.bottomAnchor="289.6" AnchorPane.rightAnchor="51.60000000000002" />
-      <HBox fx:id="tray" alignment="BOTTOM_CENTER" layoutX="255.0" layoutY="334.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="400.0" styleClass="stackPane" AnchorPane.bottomAnchor="115.60000000000002">
+      <Button fx:id="milk" contentDisplay="GRAPHIC_ONLY" graphicTextGap="1.0" layoutX="788.6" layoutY="233.6" mnemonicParsing="false" prefHeight="58.0" prefWidth="38.0" stylesheets="@../cafe.css/CafeGameTheme.css" text="milk" textFill="TRANSPARENT" AnchorPane.bottomAnchor="308.0" AnchorPane.rightAnchor="73.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <styleClass>
+            <String fx:value="milkBtn" />
+            <String fx:value="ingredientBtn" />
+         </styleClass></Button>
+      <HBox fx:id="tray" alignment="BOTTOM_CENTER" layoutX="255.0" layoutY="319.79999999999995" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="400.0" styleClass="stackPane" AnchorPane.bottomAnchor="129.80000000000007">
          <children>
             <ImageView fx:id="item1" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="item2" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
@@ -20,14 +29,22 @@
             <Insets bottom="30.0" />
          </padding></HBox>
        
-      <ButtonBar buttonMinWidth="100.0" layoutX="15.0" layoutY="548.0" prefHeight="40.0" prefWidth="200.0">
+      <ButtonBar buttonMinWidth="100.0" layoutX="15.0" layoutY="542.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="15.0">
         <buttons>
             <Button fx:id="item1Toggle" layoutX="135.0" layoutY="17.0" mnemonicParsing="false" onAction="#itemToggle" prefHeight="33.0" styleClass="itemToggleBtn" stylesheets="@../cafe.css/CafeGameTheme.css" text="item 1" textAlignment="CENTER" />
           <Button fx:id="item2Toggle" mnemonicParsing="false" onAction="#itemToggle" styleClass="itemToggleBtn" stylesheets="@../cafe.css/CafeGameTheme.css" text="item 2" textAlignment="CENTER" />
         </buttons>
       </ButtonBar>
-      <Label fx:id="currentlyMakingText" layoutX="46.6" layoutY="527.0" text="Currently making: Item 1" textFill="#568366" AnchorPane.leftAnchor="46.6" />
-      <Button fx:id="removeItem" layoutX="750.0" layoutY="552.0" mnemonicParsing="false" onAction="#removeItemBtn" styleClass="itemToggleBtn" stylesheets="@../cafe.css/CafeGameTheme.css" text="remove item" textAlignment="CENTER" AnchorPane.bottomAnchor="26.0" AnchorPane.rightAnchor="30.0" />
-      <Button fx:id="serve1" layoutX="375.0" layoutY="546.0" mnemonicParsing="false" onAction="#serveOrderBtn" styleClass="serveBtn" stylesheets="@../cafe.css/CafeGameTheme.css" text="serve!" textAlignment="CENTER" AnchorPane.bottomAnchor="26.0" />
+      <Label fx:id="currentlyMakingText" layoutX="42.4" layoutY="519.0" text="Currently making: Item 1" textFill="#568366" AnchorPane.leftAnchor="42.4" />
+      <Button fx:id="removeItem" layoutX="749.6" layoutY="544.2" mnemonicParsing="false" onAction="#removeItemBtn" styleClass="itemToggleBtn" stylesheets="@../cafe.css/CafeGameTheme.css" text="remove item" textAlignment="CENTER" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="30.399999999999977" />
+      <Button fx:id="serve1" layoutX="375.0" layoutY="549.0" mnemonicParsing="false" onAction="#serveOrderBtn" styleClass="serveBtn" stylesheets="@../cafe.css/CafeGameTheme.css" text="serve!" textAlignment="CENTER" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="375.0" AnchorPane.rightAnchor="370.0" />
+      <Label fx:id="itemDescription" layoutX="334.0" layoutY="519.0" prefHeight="20.0" prefWidth="231.0" textAlignment="CENTER" textFill="#568366" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="334.0" AnchorPane.rightAnchor="334.0" />
+      <HBox alignment="CENTER" fillHeight="false" layoutX="593.6" layoutY="25.8" prefHeight="120.0" prefWidth="276.0" spacing="10.0" styleClass="orderPreviewArea" stylesheets="@../cafe.css/CafeGameTheme.css" AnchorPane.rightAnchor="30.399999999999977" AnchorPane.topAnchor="25.8">
+         <children>
+            <Button fx:id="orderPreviw1" contentDisplay="TEXT_ONLY" mnemonicParsing="false" onAction="#selectOrder1" styleClass="orderPreview" text="Button" />
+            <Button fx:id="orderPreview2" mnemonicParsing="false" onAction="#selectOrder2" styleClass="orderPreview" text="Button" />
+            <Button fx:id="orderPreview3" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#selectOrder3" styleClass="orderPreview" text="Button" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
