@@ -1,7 +1,7 @@
 .background {
     -fx-background-image: url(../cafe.media/cafebg.png);
     -fx-background-size: 100% 100%;
-    -fx-background-position: center center;
+    -fx-background-position: center -80;
     -fx-background-repeat: no-repeat;
 }
 
@@ -14,21 +14,63 @@
 }
 
 .orderTitle{
-    -fx-font-family: "Times New Roman";
     -fx-font-size: 22px;
     -fx-text-fill: #568366;
+    -fx-font-weight: 700;
+    -fx-font-family: "Trebuchet MS";
 }
 
 .itemLabel{
-    -fx-font-family: "Times New Roman";
+    -fx-font-family: "Trebuchet MS";
     -fx-font-size: 12px;
     -fx-text-fill: #568366;
+    -fx-font-weight: 700;
 }
 
 .stackPane{
     -fx-background-image: url(../cafe.media/tray.png);
     -fx-background-size: 100% 50%;
     -fx-background-repeat: no-repeat;
+    -fx-background-position: center 80px;
+}
+
+.itemToggleBtn{
+    -fx-background-color: #92ADA4;
+    -fx-border-radius: 20px;
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+    -fx-border-color:#568366;
+    -fx-background-radius: 20px;
+    -fx-font-size: 16px;
+    -fx-font-family: "Trebuchet MS";
+}
+
+.itemToggleBtn:focused{
+    -fx-background-color: #438a72;
+}
+
+.serveBtn{
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-background-color: #f1a805;
+    -fx-text-fill: white;
+    -fx-pref-width: 160px;
+}
+
+.text{
+    -fx-font-size: 16px;
+    -fx-font-family: "Trebuchet MS";
+    -fx-text-fill: #568366;
+    -fx-font-weight: 700;
+}
+
+/*Button images*/
+.milkBtn{
+    -fx-background-image: url(../cafe.media/milk.png);
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: none;
+    -fx-cursor: pointer;
 }
 
 

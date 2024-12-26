@@ -7,11 +7,10 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="260.0" prefWidth="200.0" styleClass="orderBackground" stylesheets="@../cafe.css/CafeGameTheme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Text fill="#568366" layoutX="74.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="orderTitle" text="Order" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="74.6953125" AnchorPane.topAnchor="42.0" />
-      <GridPane layoutX="20.0" layoutY="90.0" maxWidth="-Infinity" prefWidth="160.0" AnchorPane.topAnchor="90.0">
+      <Text fill="#568366" layoutX="70.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="orderTitle" text="Order" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.31640625" AnchorPane.topAnchor="58.3427734375" />
+      <GridPane layoutX="20.0" layoutY="100.0" maxWidth="-Infinity" prefWidth="160.0" AnchorPane.topAnchor="100.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="75.20001220703125" minWidth="10.0" prefWidth="58.4000244140625" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="101.5999755859375" minWidth="10.0" prefWidth="101.5999755859375" />
@@ -23,8 +22,8 @@
          <children>
             <Label styleClass="itemLabel" text="Item 1:" />
             <Label styleClass="itemLabel" text="Item 2:" GridPane.rowIndex="1" />
-            <Label fx:id="item1Name" styleClass="itemLabel" text="Label" GridPane.columnIndex="1" />
-            <Label fx:id="item2Name" styleClass="itemLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="item1Name" prefHeight="19.0" prefWidth="101.0" styleClass="itemLabel" text="Label" GridPane.columnIndex="1" />
+            <Label fx:id="item2Name" prefHeight="15.0" prefWidth="101.0" styleClass="itemLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>
