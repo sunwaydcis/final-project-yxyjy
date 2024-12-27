@@ -61,5 +61,11 @@
             <Font name="Arial Bold" size="4.0" />
          </font>
       </Button>
+      <Button fx:id="espresso" contentDisplay="GRAPHIC_ONLY" layoutX="128.0" layoutY="315.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="38.0" text="espresso">
+         <styleClass>
+            <String fx:value="espressoBtn" />
+            <String fx:value="ingredientBtn" />
+         </styleClass>
+      </Button>
    </children>
 </AnchorPane>

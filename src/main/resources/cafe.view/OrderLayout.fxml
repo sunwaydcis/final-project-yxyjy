@@ -7,13 +7,13 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="260.0" prefWidth="200.0" styleClass="orderBackground" stylesheets="@../cafe.css/CafeGameTheme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="260.0" prefWidth="200.0" styleClass="orderBackground" stylesheets="@../cafe.css/CafeGameTheme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cafe.controller.OrderLayoutController">
    <children>
       <Text fill="#568366" layoutX="70.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="orderTitle" text="Order" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.31640625" AnchorPane.topAnchor="58.3427734375" />
       <GridPane layoutX="20.0" layoutY="100.0" maxWidth="-Infinity" prefWidth="160.0" AnchorPane.topAnchor="100.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="75.20001220703125" minWidth="10.0" prefWidth="58.4000244140625" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="101.5999755859375" minWidth="10.0" prefWidth="101.5999755859375" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="75.20001220703125" minWidth="10.0" prefWidth="48.7999755859375" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="112.00002441406251" minWidth="10.0" prefWidth="112.00002441406251" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />

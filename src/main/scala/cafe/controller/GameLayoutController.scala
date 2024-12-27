@@ -35,6 +35,7 @@ class GameLayoutController:
 
   //ingredient fxml
   @FXML private var milk: Button = _
+  @FXML private var espresso: Button =_
 
   private var currentItem: Int = 1
   private var playerItem1: List[String] = List()
@@ -60,6 +61,7 @@ class GameLayoutController:
   def initialize(): Unit =
     println("initialize() called")
     setupIngredientClick(milk)
+    setupIngredientClick(espresso)
     currentlyMakingText.setText("Game Start!")
 
   //sound effects
@@ -109,16 +111,22 @@ class GameLayoutController:
   //select and view orders
   @FXML private def selectOrder1(): Unit =
     orderPreview1.onAction = (_: ActionEvent) =>
-      currentOrderIndex = 0
-      println("Selected order: 1")
+      gameCtrl.currentOrderIndex = 0
+      gameCtrl.setCurrentOrder()
+      println(gameCtrl.currentOrderIndex)
+      println(gameCtrl.currentOrder)
   @FXML private def selectOrder2(): Unit =
     orderPreview2.onAction = (_: ActionEvent) =>
-      currentOrderIndex = 1
-      println("Selected order: 2")
+      gameCtrl.currentOrderIndex = 1
+      gameCtrl.setCurrentOrder()
+      println(gameCtrl.currentOrderIndex)
+      println(gameCtrl.currentOrder)
   @FXML private def selectOrder3(): Unit =
     orderPreview3.onAction = (_: ActionEvent) =>
-      currentOrderIndex = 2
-      println("Selected order: 3")
+      gameCtrl.currentOrderIndex = 2
+      gameCtrl.setCurrentOrder()
+      println(gameCtrl.currentOrderIndex)
+      println(gameCtrl.currentOrder)
 
   //view full order and calling it when pressing the view order button
   @FXML private def showOrderPreview():Unit=
@@ -134,10 +142,10 @@ class GameLayoutController:
     val control = loader.getController[OrderLayoutController]
     val popup: Stage = new Stage():
       initModality(Modality.ApplicationModal)
-
       scene = new Scene:
         root = orderRoot
 
+    control.orderItemName(gameCtrl.currentOrder)
     popup.showAndWait()
   @FXML private def viewOrderBtn(): Unit =
     viewOrder.onAction = (_:ActionEvent) =>

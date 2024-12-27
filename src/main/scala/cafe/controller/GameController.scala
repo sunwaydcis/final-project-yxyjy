@@ -37,9 +37,9 @@ class GameController:
   var currentOrder: Order = null
   def setCurrentOrder(): Unit =
     if currentOrderIndex >= 0 && currentOrderIndex < activeOrders.size then
-      currentOrder = activeOrders(currentOrderIndex)
+      this.currentOrder = activeOrders(currentOrderIndex)
     else
-      currentOrder = null
+      this.currentOrder = null
 
   //generate player prepared order
   var playerPreparedOrder: List[List[String]] = List(List())
