@@ -6,6 +6,7 @@ import cafe.model.status.{done, expired, inProgress}
 import scala.collection.mutable.ArrayBuffer
 import scala.io.StdIn
 
+//ORDER CONTROLLER
 //handles order-related operations, and validating player's orders.
 
 class OrderController:
@@ -31,18 +32,13 @@ class OrderController:
     if activeOrders.contains(order) then
       activeOrders -= order
 
-  //update the order's remaining time if order is in activeOrders list
-  private def updateOrderTimeLeft(order: Order): Unit =
-    if order.orderTimeLeft > 0 && isOrderActive(order) then
-      order.orderTimeLeft -= 1
-
   //set order statuses
   private def orderDone(order: Order): Unit =
     if isOrderActive(order) && order.orderStatus != expired then
       order.orderStatus = done
       println("Order done!")
 
-  private def orderExpired(order:Order): Unit =
+  def orderExpired(order:Order): Unit =
     if isOrderActive(order) && order.orderTimeLeft == 0  && order.orderStatus != done then
       order.orderStatus = expired
       println("Order expired!")
@@ -70,58 +66,10 @@ class OrderController:
 
     orderDone(order)
 
-  def evaluatePlayerOrder(index: Int): Unit = {
-    var orderDone: Int = -1
-    var itemDone: Int = -1
-    var orderChoice: Int = -1
-    var itemChoice: Int = -1
-    var playerItem1: List[String] = List[String]()
-    var playerItem2: List[String] = List[String]()
-
-    println("Make order: ")
-    orderChoice = StdIn.readInt()-1
-
-    val orderChoiceOrder: Order = activeOrders(orderChoice)
-
-    if (activeOrders.contains(orderChoiceOrder)) {
-
-      while (orderDone == -1) {
-        println("Make item: ")
-        itemChoice = StdIn.readInt()
-
-        if (itemChoice == 1) {
-          // Handle ingredients for item 1
-          while (itemDone == -1) {
-            println("Add ingredient to item 1: ")
-            val ingredient = StdIn.readLine()
-            playerItem1 = playerItem1 :+ ingredient
-            println("-1 to continue adding ingredients to item 1")
-            itemDone = StdIn.readInt()
-          }
-        }
-
-        if (itemChoice == 2) {
-          // Handle ingredients for item 2
-          while (itemDone == -1) {
-            println("Add ingredient to item 2: ")
-            val ingredient = StdIn.readLine()
-            playerItem2 = playerItem2 :+ ingredient
-            println("-1 to continue adding ingredients to item 2")
-            itemDone = StdIn.readInt()
-          }
-        }
-
-        // Prompt to finish the order
-        println("0 to finish the order, -1 to select another item")
-        orderDone = StdIn.readInt()
-      }
-
-      // After finishing the order, compare the player’s items with the active order
-      val playerOrder: List[List[String]] = List(playerItem1, playerItem2)
-      orderCorrect(playerOrder, activeOrders(index-1))
-    }
-  }
-
+  //update the order's remaining time if order is in activeOrders list
+  private def updateOrderTimeLeft(order: Order): Unit =
+    if order.orderTimeLeft > 0 && isOrderActive(order) then
+      order.orderTimeLeft -= 1
 
   //update all active orders' status accordingly - to be called in Timer
   def updateActiveOrders(): Unit =
@@ -132,15 +80,3 @@ class OrderController:
         removeOrder(i)
       else
         updateOrderTimeLeft(activeOrder)
-
-
-
-
-
-
-
-
-
-
-
-

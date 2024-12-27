@@ -11,7 +11,8 @@ object Timer:
   def startTimer(
                 gameTime: Int,
                 orderCtrl: OrderController,
-                custCtrl: CustomerController
+                custCtrl: CustomerController,
+                gameCtrl: GameController
                 ): Unit =
 
     var timeLeft = gameTime
@@ -28,6 +29,7 @@ object Timer:
 
         orderCtrl.updateActiveOrders()
         custCtrl.handleCustomerQueue()
+        gameCtrl.whenOrderExpires()
 
         if timeLeft <= 0 then
           println("game over!")

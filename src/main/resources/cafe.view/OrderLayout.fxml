@@ -22,8 +22,8 @@
          <children>
             <Label styleClass="itemLabel" text="Item 1:" />
             <Label styleClass="itemLabel" text="Item 2:" GridPane.rowIndex="1" />
-            <Label fx:id="item1Name" prefHeight="19.0" prefWidth="101.0" styleClass="itemLabel" text="Label" GridPane.columnIndex="1" />
-            <Label fx:id="item2Name" prefHeight="15.0" prefWidth="101.0" styleClass="itemLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="orderItem1" prefHeight="19.0" prefWidth="101.0" styleClass="itemLabel" text="Label" GridPane.columnIndex="1" />
+            <Label fx:id="orderItem2" prefHeight="15.0" prefWidth="101.0" styleClass="itemLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>

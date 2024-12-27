@@ -19,14 +19,14 @@ class CustomerController(totalCustomers: List[Customer], orderCtrl : OrderContro
     if nextCustomerIndex < totalCustomers.size then
       val nextCustomer = totalCustomers(nextCustomerIndex)
       activeCustomers.append(nextCustomer)
-      orderCtrl.addOrder(nextCustomer.order)
+
       nextCustomerIndex += 1
 
   //manage customer queue
   def handleCustomerQueue (): Unit =
     for i <- activeCustomers.indices.reverse do
       val activeCust = activeCustomers(i)
-      if activeCust.order.orderStatus == done || activeCust.order.orderStatus == expired then
+      if activeCust.order.orderStatus == expired then
         customerLeaves(i)
 
 

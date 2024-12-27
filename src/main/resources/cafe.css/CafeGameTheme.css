@@ -1,7 +1,7 @@
 .background {
     -fx-background-image: url(../cafe.media/cafebg.png);
-    -fx-background-size: 96% 100%;
-    -fx-background-position: center -100px;
+    -fx-background-size: 92% 82%;
+    -fx-background-position: center -10px;
     -fx-background-repeat: no-repeat;
     -fx-background-color: #e1d4c2;
 }
@@ -36,11 +36,9 @@
 }
 
 .itemToggleBtn{
-    -fx-background-color: #92ADA4;
-    -fx-border-radius: 20px;
+    -fx-background-color: #55c9a2;
     -fx-text-fill: white;
     -fx-font-weight: 700;
-    -fx-border-color:#568366;
     -fx-background-radius: 20px;
     -fx-font-size: 16px;
     -fx-font-family: "Trebuchet MS";
@@ -65,12 +63,6 @@
     -fx-font-weight: 700;
 }
 
-.orderPreviewArea{
-    -fx-background-color: #438a72;
-    -fx-padding: 10px 5x;
-    -fx-background-radius: 10px;
-}
-
 .orderPreview{
     -fx-background-image: url(../cafe.media/orderprevbg.png);
     -fx-background-size: 100% 100%;
@@ -84,7 +76,17 @@
 }
 
 .orderPreview:focused{
-    -fx-border-color: white;
+    -fx-border-color: #f1a805;
+    -fx-border-width: 2px;
+}
+
+.viewOrder{
+    -fx-background-color: #55c9a2;
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+    -fx-background-radius: 20px;
+    -fx-font-size: 12px;
+    -fx-font-family: "Trebuchet MS";
 }
 
 /*Button images*/

@@ -23,8 +23,12 @@ object CafeGame extends JFXApp3:
 
     val rootResource = getClass.getResource("cafe.view/GameLayout.fxml")
     val loader = new FXMLLoader(rootResource)
-
     loader.load()
+
+    val gameController = new GameController()
+    loader.getController[GameLayoutController].setGameController(gameController)
+
+
     roots = Option(loader.getRoot[jfxs.layout.AnchorPane])
     stage = new PrimaryStage():
       title = "CafeGame"

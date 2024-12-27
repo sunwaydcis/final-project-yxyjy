@@ -1,16 +1,19 @@
 package cafe.controller
 
+import scalafx.scene as sfxs
+import javafx.scene as jfxs
 import cafe.model.{Order, ingredients}
-import javafx.fxml.FXML
+import javafx.fxml.{FXML, FXMLLoader}
 import scalafx.Includes.*
 import scalafx.event.ActionEvent
 import javafx.scene.control.{Button, Label}
 import javafx.scene.image.{Image, ImageView}
 import javafx.scene.layout.HBox
+import scalafx.scene.{Parent, Scene}
 import scalafx.scene.media.{Media, MediaPlayer}
+import scalafx.stage.{Modality, Stage}
 
 import java.io.File
-
 
 @FXML
 class GameLayoutController:
@@ -27,6 +30,8 @@ class GameLayoutController:
   @FXML private var orderPreview1: Button = _
   @FXML private var orderPreview2: Button = _
   @FXML private var orderPreview3: Button = _
+  @FXML private var viewOrder: Button =_
+  @FXML private var moneyEarnedLabel: Label =_
 
   //ingredient fxml
   @FXML private var milk: Button = _
@@ -34,21 +39,30 @@ class GameLayoutController:
   private var currentItem: Int = 1
   private var playerItem1: List[String] = List()
   private var playerItem2: List[String] = List()
-  private var playerPreparedOrder: List[List[String]] = List(List())
   private var playerItem1Desc: String = ""
   private var playerItem2Desc: String = ""
   private val clickSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/click.mp3").toURI.toString))
   private val popSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/pop.mp3").toURI.toString))
-  private val orderCtrl: OrderController = new OrderController
-  private var activeOrders: List[Order] = List()
-  private var currentOrder: Order = activeOrders.head
 
+  //setter for game controller and injected variables from game controller
+  private var gameCtrl: GameController = _
+  var currentOrderIndex: Int = _
+  var currentOrder: Order = _
+  var playerPreparedOrder: List[List[String]] = _
+
+  def setGameController(controller: GameController): Unit =
+    this.gameCtrl = controller
+    currentOrderIndex= gameCtrl.currentOrderIndex
+    currentOrder= gameCtrl.currentOrder
+    playerPreparedOrder = gameCtrl.playerPreparedOrder
+
+  //initialize
   def initialize(): Unit =
     println("initialize() called")
     setupIngredientClick(milk)
     currentlyMakingText.setText("Game Start!")
-    
 
+  //sound effects
   private def playClickSound(): Unit =
     try
       clickSound.stop()
@@ -56,15 +70,29 @@ class GameLayoutController:
     catch
       case e: Exception =>
         println(s"Error playing sound: ${e.getMessage}")
-
   private def playPopSound(): Unit =
     try
-      popSound.play()
       popSound.stop()
+      popSound.seek
+      popSound.play()
     catch
       case e: Exception =>
         println(s"Error playing sound: ${e.getMessage}")
 
+  //refresh UI
+  private def refreshUI(): Unit =
+    // clear fields
+    if item1 != null then
+      item1.setImage(null)
+    if item2 != null then
+      item2.setImage(null)
+    if playerItem1 != null then
+      playerItem1 = List()
+    if playerItem2 != null then
+      playerItem2 = List()
+    itemDescription.setText("")
+
+  //toggle between two items
   @FXML private def itemToggle(): Unit =
     item1Toggle.onAction = (_:ActionEvent) =>
       currentItem = 1
@@ -78,76 +106,68 @@ class GameLayoutController:
       itemDescription.setText(playerItem2Desc)
       playPopSound()
 
-  private def itemDescriptionText():Unit =
-    if currentItem == 1 then
-      playerItem1Desc = "Item 1: " + playerItem1.mkString(" ")
-      itemDescription.setText(playerItem1Desc)
-    else if currentItem == 2 then
-      playerItem2Desc = "Item 2: " + playerItem2.mkString(" ")
-      itemDescription.setText(playerItem2Desc)
-
+  //select and view orders
   @FXML private def selectOrder1(): Unit =
-    orderPreview1.onAction = (_:ActionEvent) =>
-      if activeOrders.head != null then
-        currentOrder = activeOrders.head
-        println("Order 1 selected")
-      else
-        println("No order found!")
-
+    orderPreview1.onAction = (_: ActionEvent) =>
+      currentOrderIndex = 0
+      println("Selected order: 1")
   @FXML private def selectOrder2(): Unit =
     orderPreview2.onAction = (_: ActionEvent) =>
-      if activeOrders(1) != null then
-        currentOrder = activeOrders(1)
-        println("Order 2 selected")
-      else
-        println("No order found!")
-
+      currentOrderIndex = 1
+      println("Selected order: 2")
   @FXML private def selectOrder3(): Unit =
     orderPreview3.onAction = (_: ActionEvent) =>
-      if activeOrders(2) != null then
-        currentOrder = activeOrders(2)
-        println("Order 3 selected")
-      else
-        println("No order found!")
+      currentOrderIndex = 2
+      println("Selected order: 3")
 
-  @FXML private def serveOrderBtn(): Unit =
-    playerPreparedOrder = playerPreparedOrder:+ playerItem1 :+ playerItem2
-    orderCtrl.orderCorrect(playerPreparedOrder, currentOrder)
+  //view full order and calling it when pressing the view order button
+  @FXML private def showOrderPreview():Unit=
+    val resource = getClass.getResource("/cafe.view/OrderLayout.fxml")
+    if (resource == null) {
+      println("FXML file not found!")
+    } else {
+      println(s"FXML file found at: $resource")
+    }
+    val loader = new FXMLLoader(resource)
+    loader.load()
+    val orderRoot = loader.getRoot[jfxs.Parent]
+    val control = loader.getController[OrderLayoutController]
+    val popup: Stage = new Stage():
+      initModality(Modality.ApplicationModal)
 
-    if item1 != null then
-      item1.setImage(null)
-    if item2 != null then
-      item2.setImage(null)
-    if playerItem1 != null then
-      playerItem1 = List(null)
-    if playerItem2 != null then
-      playerItem2 = List(null)
-    itemDescription.setText("")
+      scene = new Scene:
+        root = orderRoot
+
+    popup.showAndWait()
+  @FXML private def viewOrderBtn(): Unit =
+    viewOrder.onAction = (_:ActionEvent) =>
+      showOrderPreview()
 
   @FXML private def removeItemBtn(): Unit =
+    playPopSound()
+
     if currentItem == 1 then
       if item1 != null then
         item1.setImage(null)
       if playerItem1 != null then
-        playerItem1 = playerItem1.drop(playerItem1.size-1)
+        playerItem1 = playerItem1.init
       itemDescription.setText("")
-      playPopSound()
 
     if currentItem == 2 then
       if item2 != null then
         item2.setImage(null)
       if playerItem2 != null then
-        playerItem2 = playerItem2.drop(playerItem2.size - 1)
+        playerItem1 = playerItem2.init
       itemDescription.setText("")
-      playPopSound()
 
+  //set up click action for each ingredient
   private def setupIngredientClick(ingredient: Button): Unit =
     ingredient.onAction = (_: ActionEvent) =>
       val ingredientName = ingredient.getText
       val selectedIngredient = ingredients.find(_.name == ingredientName)
       playClickSound()
 
-      selectedIngredient.match
+      selectedIngredient match
         case Some(ingredient) =>
           val image = new Image(ingredient.image)
           if currentItem == 1 then
@@ -161,6 +181,33 @@ class GameLayoutController:
 
         case None =>
           println(s"Ingredient $ingredientName not found")
+
+  //show the ingredients selected by the players
+  private def itemDescriptionText(): Unit =
+    if currentItem == 1 then
+      playerItem1Desc = "Item 1: " + playerItem1.mkString(" ")
+      itemDescription.setText(playerItem1Desc)
+    else if currentItem == 2 then
+      playerItem2Desc = "Item 2: " + playerItem2.mkString(" ")
+      itemDescription.setText(playerItem2Desc)
+
+  private def moneyEarnedLabelText(): Unit =
+    moneyEarnedLabel.setText(gameCtrl.moneyEarned.toString)
+
+  //serve order, update customers and orders
+  @FXML private def serveOrderBtn(): Unit =
+    playerPreparedOrder = playerPreparedOrder:+ playerItem1 :+ playerItem2
+    gameCtrl.orderCtrl.orderCorrect(playerPreparedOrder, gameCtrl.activeOrders(currentOrderIndex))
+    moneyEarnedLabelText()
+
+    gameCtrl.orderCtrl.updateActiveOrders()
+
+    refreshUI()
+
+
+
+
+
 
 
 
