@@ -24,13 +24,18 @@ class OrderController:
     if !activeOrders.contains(order) then
       activeOrders += order
 
-  private def removeOrder(index: Int): Unit = //remove order from activeOrders
+  def removeOrder(index: Int): Unit = //remove order from activeOrders
     if index >= 0 && index < activeOrders.size then
       activeOrders.remove(index)
+      println(s"Order at index $index removed. Active orders size: ${activeOrders.size}")
 
   def removeCustomerOrder(order:Order): Unit =
     if activeOrders.contains(order) then
       activeOrders -= order
+
+  private def setOrderTotal(order:Order, earned: Double): Unit =
+    order.orderTotal = earned
+    println(order.orderTotal)
 
   //set order statuses
   private def orderDone(order: Order): Unit =
@@ -38,38 +43,45 @@ class OrderController:
       order.orderStatus = done
       println("Order done!")
 
-  def orderExpired(order:Order): Unit =
+  private def orderExpired(order:Order): Unit =
     if isOrderActive(order) && order.orderTimeLeft == 0  && order.orderStatus != done then
       order.orderStatus = expired
       println("Order expired!")
 
   //check if players made orders correctly
   private def isItemCorrect(preparedItem: List[String], item: Item): Boolean = //validate each item
-    preparedItem.sorted == item.ingredients.sorted
+    if preparedItem.sorted == item.ingredients.sorted then
+      println("Item correct")
+      true
+    else
+      println("Oh no, the customer didn't want this!")
+      false
 
   def orderCorrect(preparedItems: List[List[String]], order: Order): Unit = //validate entire order : how many items correct, set order as done
-    val item1Correct = isItemCorrect(preparedItems.head, order.items.head)
-    val item2Correct = isItemCorrect(preparedItems(1), order.items(1))
-    order.orderTotal = 0
+    setOrderTotal(order, 0.0)
+    val item1Correct = isItemCorrect(preparedItems.head, order.items.head) //validate first item
+    val item2Correct = isItemCorrect(preparedItems(1), order.items(1)) //validate second item
 
     if item1Correct then
-      order.orderTotal += order.items.head.price
+      setOrderTotal(order, order.orderTotal + order.items.head.price)
       println("Item served!")
     else
-      println("Ugh, not what the customer wanted!")
+      println("item was wrong")
 
     if item2Correct then
-      order.orderTotal += order.items(1).price
+      setOrderTotal(order, order.orderTotal + order.items(1).price)
       println("Item served!")
     else
-      println("Ugh, not what the customer wanted!")
+      println("item was wrong")
 
-    orderDone(order)
+    orderDone(order)//set order as done
 
   //update the order's remaining time if order is in activeOrders list
   private def updateOrderTimeLeft(order: Order): Unit =
     if order.orderTimeLeft > 0 && isOrderActive(order) then
       order.orderTimeLeft -= 1
+      println("-------")
+      println(s"Order Time Left: ${order.orderTimeLeft}")
 
   //update all active orders' status accordingly - to be called in Timer
   def updateActiveOrders(): Unit =

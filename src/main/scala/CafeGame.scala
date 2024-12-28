@@ -27,6 +27,7 @@ object CafeGame extends JFXApp3:
 
     val gameController = new GameController()
     loader.getController[GameLayoutController].setGameController(gameController)
+    gameController.startGame()
 
 
     roots = Option(loader.getRoot[jfxs.layout.AnchorPane])
@@ -34,5 +35,7 @@ object CafeGame extends JFXApp3:
       title = "CafeGame"
       scene = new Scene():
         root = roots.get
+
+
 
 end CafeGame

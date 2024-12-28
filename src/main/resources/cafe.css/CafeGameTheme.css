@@ -3,7 +3,7 @@
     -fx-background-size: 92% 82%;
     -fx-background-position: center -10px;
     -fx-background-repeat: no-repeat;
-    -fx-background-color: #e1d4c2;
+    -fx-background-color: #fff1dd;
 }
 
 .orderBackground{
@@ -35,23 +35,40 @@
     -fx-background-position: center 60px;
 }
 
+.statusPane{
+    -fx-background-color: #b9eaea;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+}
+
+.menuBar{
+    -fx-background-color: #ffe8c6;
+    -fx-font-size: 12px;
+    -fx-font-family: "Trebuchet MS";
+    -fx-text-fill: #00918c;
+    -fx-font-weight: 700;
+    -fx-pref-height: 50;
+}
+
 .itemToggleBtn{
-    -fx-background-color: #55c9a2;
+    -fx-background-color: #00b4ae;
     -fx-text-fill: white;
     -fx-font-weight: 700;
     -fx-background-radius: 20px;
     -fx-font-size: 16px;
     -fx-font-family: "Trebuchet MS";
+    -fx-pref-width: 100;
+    -fx-pref-height:30 ;
 }
 
 .itemToggleBtn:focused{
-    -fx-background-color: #438a72;
+    -fx-background-color: #00918c;
 }
 
 .serveBtn{
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
-    -fx-background-color: #f1a805;
+    -fx-background-color: #ffc64c;
     -fx-text-fill: white;
     -fx-pref-width: 160px;
 }
@@ -59,7 +76,7 @@
 .text{
     -fx-font-size: 12px;
     -fx-font-family: "Trebuchet MS";
-    -fx-text-fill: #568366;
+    -fx-text-fill: #00918c;
     -fx-font-weight: 700;
 }
 
@@ -81,29 +98,76 @@
 }
 
 .viewOrder{
-    -fx-background-color: #55c9a2;
+    -fx-background-color: #00b4ae;
     -fx-text-fill: white;
     -fx-font-weight: 700;
     -fx-background-radius: 20px;
     -fx-font-size: 12px;
     -fx-font-family: "Trebuchet MS";
+    -fx-pref-width: 100;
+    -fx-pref-height:20 ;
 }
 
 /*Button images*/
 .milkBtn{
     -fx-background-image: url(../cafe.media/milk.png);
-    -fx-background-size: 100% 100%;
-    -fx-background-repeat: no-repeat;
-    -fx-background-color: none;
-    -fx-cursor: pointer;
 }
 
 .espressoBtn{
     -fx-background-image: url(../cafe.media/espresso.png);
+}
+
+.caramelsyrupBtn{
+    -fx-background-image: url(../cafe.media/caramelsyrup.png);
+}
+
+.chocsyrupBtn{
+    -fx-background-image: url(../cafe.media/chocolatesyrup.png);
+}
+
+.croissantBtn{
+    -fx-background-image: url(../cafe.media/croissant.png);
+}
+
+.cupsBtn {
+    -fx-background-image: url(../cafe.media/cups.png);
+}
+
+.glassesBtn{
+    -fx-background-image: url(../cafe.media/glasses.png);
+}
+
+.iceboxBtn{
+    -fx-background-image: url(../cafe.media/icebox.png);
+}
+
+.matchapowderBtn{
+    -fx-background-image: url(../cafe.media/matchapowder.png);
+}
+
+.strawberryshortcakeBtn{
+    -fx-background-image: url(../cafe.media/strawberryshortcake.png);
+}
+
+.pistachiocakeBtn{
+    -fx-background-image: url(../cafe.media/pistachiocake.png);
+}
+
+.tiramisuBtn{
+    -fx-background-image: url(../cafe.media/tiramisu.png);
+}
+
+.whippedcreamBtn{
+    -fx-background-image: url(../cafe.media/whippedcream.png);
+}
+
+
+.ingredientBtn{
     -fx-background-size: 100% 100%;
     -fx-background-repeat: no-repeat;
     -fx-background-color: none;
     -fx-cursor: pointer;
+    -fx-content-display: GRAPHIC_ONLY;
 }
 
 .ingredientBtn:hover{

@@ -32,10 +32,23 @@ class GameLayoutController:
   @FXML private var orderPreview3: Button = _
   @FXML private var viewOrder: Button =_
   @FXML private var moneyEarnedLabel: Label =_
+  @FXML private var timeLeftLabel: Label =_
 
   //ingredient fxml
   @FXML private var milk: Button = _
   @FXML private var espresso: Button =_
+  @FXML private var cup: Button = _
+  @FXML private var caramelsyrup: Button = _
+  @FXML private var chocolatesyrup: Button =_
+  @FXML private var croissant: Button = _
+  @FXML private var glass: Button = _
+  @FXML private var ice: Button = _
+  @FXML private var matchapowder: Button = _
+  @FXML private var pistachiocake: Button = _
+  //@FXML private var plate: Button = _
+  @FXML private var strawberryshortcake: Button = _
+  @FXML private var tiramisu: Button =_
+  //@FXML private var whippedcream: Button = _
 
   private var currentItem: Int = 1
   private var playerItem1: List[String] = List()
@@ -56,13 +69,24 @@ class GameLayoutController:
     currentOrderIndex= gameCtrl.currentOrderIndex
     currentOrder= gameCtrl.currentOrder
     playerPreparedOrder = gameCtrl.playerPreparedOrder
+    gameCtrl.setupTimeUpdateListener(updateTimeLeft)
 
   //initialize
   def initialize(): Unit =
     println("initialize() called")
-    setupIngredientClick(milk)
-    setupIngredientClick(espresso)
+    val ingredientButtons: List[Button] = List(milk, espresso, cup, caramelsyrup, chocolatesyrup, croissant, glass, ice, matchapowder, pistachiocake, strawberryshortcake, tiramisu)
+
+    for ingredient <- ingredientButtons do
+      setupIngredientClick(ingredient)
+
     currentlyMakingText.setText("Game Start!")
+    moneyEarnedLabel.setText("0.00")
+
+    orderPreview1.onAction = (_: ActionEvent) => selectOrder(0)
+    orderPreview2.onAction = (_: ActionEvent) => selectOrder(1)
+    orderPreview3.onAction = (_: ActionEvent) => selectOrder(2)
+    item1Toggle.onAction = (_: ActionEvent) => itemToggle(1)
+    item2Toggle.onAction = (_: ActionEvent) => itemToggle(2)
 
   //sound effects
   private def playClickSound(): Unit =
@@ -84,52 +108,42 @@ class GameLayoutController:
   //refresh UI
   private def refreshUI(): Unit =
     // clear fields
-    if item1 != null then
-      item1.setImage(null)
-    if item2 != null then
-      item2.setImage(null)
     if playerItem1 != null then
       playerItem1 = List()
+
     if playerItem2 != null then
       playerItem2 = List()
+
+    if item1 != null then
+      item1.setImage(null)
+
+    if item2 != null then
+      item2.setImage(null)
+
     itemDescription.setText("")
 
   //toggle between two items
-  @FXML private def itemToggle(): Unit =
-    item1Toggle.onAction = (_:ActionEvent) =>
-      currentItem = 1
-      currentlyMakingText.setText("Currently making: Item 1")
-      itemDescription.setText(playerItem1Desc)
-      playPopSound()
+  private def itemToggle(item: Int): Unit =
+    currentItem = item
+    currentlyMakingText.setText(s"Currently making: Item $item")
 
-    item2Toggle.onAction = (_:ActionEvent)=>
-      currentItem = 2
-      currentlyMakingText.setText("Currently making: Item 2")
-      itemDescription.setText(playerItem2Desc)
-      playPopSound()
+    item match
+      case 1 => itemDescription.setText(playerItem1Desc)
+      case 2 => itemDescription.setText(playerItem2Desc)
+
+    playPopSound()
 
   //select and view orders
-  @FXML private def selectOrder1(): Unit =
-    orderPreview1.onAction = (_: ActionEvent) =>
-      gameCtrl.currentOrderIndex = 0
-      gameCtrl.setCurrentOrder()
-      println(gameCtrl.currentOrderIndex)
-      println(gameCtrl.currentOrder)
-  @FXML private def selectOrder2(): Unit =
-    orderPreview2.onAction = (_: ActionEvent) =>
-      gameCtrl.currentOrderIndex = 1
-      gameCtrl.setCurrentOrder()
-      println(gameCtrl.currentOrderIndex)
-      println(gameCtrl.currentOrder)
-  @FXML private def selectOrder3(): Unit =
-    orderPreview3.onAction = (_: ActionEvent) =>
-      gameCtrl.currentOrderIndex = 2
-      gameCtrl.setCurrentOrder()
-      println(gameCtrl.currentOrderIndex)
-      println(gameCtrl.currentOrder)
+  private def selectOrder(index: Int): Unit = 
+    playPopSound()
+    gameCtrl.currentOrderIndex = index
+    gameCtrl.updateCurrentOrder()
+    println(gameCtrl.currentOrderIndex)
+    println(gameCtrl.currentOrder)
 
   //view full order and calling it when pressing the view order button
   @FXML private def showOrderPreview():Unit=
+    playPopSound()
     val resource = getClass.getResource("/cafe.view/OrderLayout.fxml")
     if (resource == null) {
       println("FXML file not found!")
@@ -146,10 +160,8 @@ class GameLayoutController:
         root = orderRoot
 
     control.orderItemName(gameCtrl.currentOrder)
+    control.setGameController(gameCtrl)
     popup.showAndWait()
-  @FXML private def viewOrderBtn(): Unit =
-    viewOrder.onAction = (_:ActionEvent) =>
-      showOrderPreview()
 
   @FXML private def removeItemBtn(): Unit =
     playPopSound()
@@ -158,14 +170,16 @@ class GameLayoutController:
       if item1 != null then
         item1.setImage(null)
       if playerItem1 != null then
-        playerItem1 = playerItem1.init
+        playerItem1 = List()
+        playerItem1Desc= ("")
       itemDescription.setText("")
 
     if currentItem == 2 then
       if item2 != null then
         item2.setImage(null)
       if playerItem2 != null then
-        playerItem1 = playerItem2.init
+        playerItem2 = List()
+        playerItem2Desc = ("")
       itemDescription.setText("")
 
   //set up click action for each ingredient
@@ -202,15 +216,20 @@ class GameLayoutController:
   private def moneyEarnedLabelText(): Unit =
     moneyEarnedLabel.setText(gameCtrl.moneyEarned.toString)
 
+  private def updateTimeLeft(time: Int): Unit =
+    timeLeftLabel.setText(time.toString)
+
   //serve order, update customers and orders
   @FXML private def serveOrderBtn(): Unit =
-    playerPreparedOrder = playerPreparedOrder:+ playerItem1 :+ playerItem2
-    gameCtrl.orderCtrl.orderCorrect(playerPreparedOrder, gameCtrl.activeOrders(currentOrderIndex))
+    gameCtrl.playerPreparedOrder = List(playerItem1, playerItem2)
+    println(gameCtrl.playerPreparedOrder)
+    gameCtrl.whenOrderDone()
     moneyEarnedLabelText()
 
-    gameCtrl.orderCtrl.updateActiveOrders()
-
     refreshUI()
+
+    println(playerPreparedOrder)
+
 
 
 

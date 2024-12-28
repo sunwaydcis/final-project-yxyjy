@@ -14,6 +14,8 @@ object RandomGenerator:
     Item ("Iced Americano", 5.50, List("espresso", "water","ice")),
     Item ("Mocha", 7.00, List("espresso", "milk", "chocolatesyrup")),
     Item ("Iced Mocha", 7.50, List("espresso", "milk", "chocolatesyrup", "ice")),
+    Item ("Caramel Macchiato",  7.00, List("espresso", "milk", "caramelsyrup")),
+    Item ("Iced Caramel Macchiato",  7.00, List("espresso", "milk", "caramelsyrup", "ice")),
     Item ("Matcha Latte", 8.00, List("espresso", "milk", "matchapowder")),
     Item ("Matcha Latte", 8.50, List("espresso", "milk", "matchapowder", "ice")),
     Item ("Pistachio Cake", 12.00,List ("pistachiocake")),
@@ -23,9 +25,9 @@ object RandomGenerator:
   )
 
   val customerNames: List[String] = List(
-    "Neria",
+    "Ellie",
     "Genie",
-    "BaekGom",
+    "Gom",
     "Sekita",
     "Andy",
     "Marie",

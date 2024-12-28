@@ -25,11 +25,12 @@ object Timer:
       if (now - lastUpdateTime) >= 1e9.toLong then { // If 1 second has passed
         lastUpdateTime = now
         timeLeft -= 1
-        println(s"Time left: $timeLeft")
+        println(s"Game Time left: $timeLeft")
+        gameCtrl.updateGameTime(1)
 
         orderCtrl.updateActiveOrders()
         custCtrl.handleCustomerQueue()
-        gameCtrl.whenOrderExpires()
+        //gameCtrl.whenOrderExpires()
 
         if timeLeft <= 0 then
           println("game over!")
