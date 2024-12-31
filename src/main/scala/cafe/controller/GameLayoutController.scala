@@ -1,5 +1,7 @@
 package cafe.controller
 
+import cafe.model.Customer
+import cafe.model.status.expired
 import scalafx.scene as sfxs
 import javafx.scene as jfxs
 import cafe.model.{Order, ingredients}
@@ -9,11 +11,14 @@ import scalafx.event.ActionEvent
 import javafx.scene.control.{Button, Label}
 import javafx.scene.image.{Image, ImageView}
 import javafx.scene.layout.HBox
-import scalafx.scene.{Parent, Scene}
+import javafx.util.Duration
+import scalafx.animation.{FadeTransition, ParallelTransition, PauseTransition, TranslateTransition}
+import scalafx.scene.{Node, Parent, Scene}
 import scalafx.scene.media.{Media, MediaPlayer}
 import scalafx.stage.{Modality, Stage}
 
 import java.io.File
+import scala.collection.mutable.ArrayBuffer
 
 @FXML
 class GameLayoutController:
@@ -33,6 +38,9 @@ class GameLayoutController:
   @FXML private var viewOrder: Button =_
   @FXML private var moneyEarnedLabel: Label =_
   @FXML private var timeLeftLabel: Label =_
+  @FXML private var currentOrderText: Label = _
+  @FXML private var expiredOrderText: Label = _
+  @FXML private var moneyEarned: Label = _
 
   //ingredient fxml
   @FXML private var milk: Button = _
@@ -45,7 +53,6 @@ class GameLayoutController:
   @FXML private var ice: Button = _
   @FXML private var matchapowder: Button = _
   @FXML private var pistachiocake: Button = _
-  //@FXML private var plate: Button = _
   @FXML private var strawberryshortcake: Button = _
   @FXML private var tiramisu: Button =_
   //@FXML private var whippedcream: Button = _
@@ -57,19 +64,15 @@ class GameLayoutController:
   private var playerItem2Desc: String = ""
   private val clickSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/click.mp3").toURI.toString))
   private val popSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/pop.mp3").toURI.toString))
+  private val kachingSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/kaching.mp3").toURI.toString))
 
-  //setter for game controller and injected variables from game controller
+  //game controller setup
   private var gameCtrl: GameController = _
-  var currentOrderIndex: Int = _
-  var currentOrder: Order = _
-  var playerPreparedOrder: List[List[String]] = _
 
   def setGameController(controller: GameController): Unit =
     this.gameCtrl = controller
-    currentOrderIndex= gameCtrl.currentOrderIndex
-    currentOrder= gameCtrl.currentOrder
-    playerPreparedOrder = gameCtrl.playerPreparedOrder
     gameCtrl.setupTimeUpdateListener(updateTimeLeft)
+    gameCtrl.setupOrderExpiredListener(order => updateExpiredOrderText(order))
 
   //initialize
   def initialize(): Unit =
@@ -99,8 +102,14 @@ class GameLayoutController:
   private def playPopSound(): Unit =
     try
       popSound.stop()
-      popSound.seek
       popSound.play()
+    catch
+      case e: Exception =>
+        println(s"Error playing sound: ${e.getMessage}")
+  private def playKachingSound(): Unit =
+    try
+      kachingSound.stop()
+      kachingSound.play()
     catch
       case e: Exception =>
         println(s"Error playing sound: ${e.getMessage}")
@@ -110,9 +119,11 @@ class GameLayoutController:
     // clear fields
     if playerItem1 != null then
       playerItem1 = List()
+      playerItem1Desc = ""
 
     if playerItem2 != null then
       playerItem2 = List()
+      playerItem2Desc = ""
 
     if item1 != null then
       item1.setImage(null)
@@ -120,6 +131,7 @@ class GameLayoutController:
     if item2 != null then
       item2.setImage(null)
 
+    currentOrderText.setText("Customer's order:")
     itemDescription.setText("")
 
   //toggle between two items
@@ -134,14 +146,19 @@ class GameLayoutController:
     playPopSound()
 
   //select and view orders
-  private def selectOrder(index: Int): Unit = 
+  private def selectOrder(index: Int): Unit =
+
     playPopSound()
     gameCtrl.currentOrderIndex = index
     gameCtrl.updateCurrentOrder()
+    val item1Name: String = gameCtrl.currentOrder.items.head.name
+    val item2Name: String = gameCtrl.currentOrder.items(1).name
+    val custName:String = gameCtrl.activeCustomers(gameCtrl.currentOrderIndex).name
+    currentOrderText.setText(custName + "'s order: "+ item1Name + ", "+ item2Name)
     println(gameCtrl.currentOrderIndex)
     println(gameCtrl.currentOrder)
 
-  //view full order and calling it when pressing the view order button
+  //view full order (calls OrderLayout)
   @FXML private def showOrderPreview():Unit=
     playPopSound()
     val resource = getClass.getResource("/cafe.view/OrderLayout.fxml")
@@ -160,9 +177,13 @@ class GameLayoutController:
         root = orderRoot
 
     control.orderItemName(gameCtrl.currentOrder)
+    control.orderName(gameCtrl.activeCustomers(gameCtrl.currentOrderIndex))
+    control.customerSatisfactionLabelText(gameCtrl.activeCustomers(gameCtrl.currentOrderIndex))
     control.setGameController(gameCtrl)
+    control.setOrder(gameCtrl.currentOrder)
     popup.showAndWait()
 
+  //clear item from tray
   @FXML private def removeItemBtn(): Unit =
     playPopSound()
 
@@ -213,6 +234,17 @@ class GameLayoutController:
       playerItem2Desc = "Item 2: " + playerItem2.mkString(" ")
       itemDescription.setText(playerItem2Desc)
 
+  //update expired order
+  private def updateExpiredOrderText(order:Order): Unit =
+    val item1 = order.items.head.name
+    val item2 = order.items(1).name
+    expiredOrderText.setText(s"Order " + item1 + ", " + item2 + "has expired!")
+
+    val resetMessage = new PauseTransition(Duration.seconds(3)) // 1-second delay
+    resetMessage.onFinished = _ => expiredOrderText.setText("Time is ticking...") // Reset to default
+    resetMessage.play()
+
+  //update money earned
   private def moneyEarnedLabelText(): Unit =
     moneyEarnedLabel.setText(gameCtrl.moneyEarned.toString)
 
@@ -221,6 +253,8 @@ class GameLayoutController:
 
   //serve order, update customers and orders
   @FXML private def serveOrderBtn(): Unit =
+    playKachingSound()
+
     gameCtrl.playerPreparedOrder = List(playerItem1, playerItem2)
     println(gameCtrl.playerPreparedOrder)
     gameCtrl.whenOrderDone()
@@ -228,18 +262,3 @@ class GameLayoutController:
 
     refreshUI()
 
-    println(playerPreparedOrder)
-
-
-
-
-
-
-
-
-
-
-
-
-
-  

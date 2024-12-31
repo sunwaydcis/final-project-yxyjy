@@ -51,16 +51,14 @@ class OrderController:
   //check if players made orders correctly
   private def isItemCorrect(preparedItem: List[String], item: Item): Boolean = //validate each item
     if preparedItem.sorted == item.ingredients.sorted then
-      println("Item correct")
       true
     else
-      println("Oh no, the customer didn't want this!")
       false
 
   def orderCorrect(preparedItems: List[List[String]], order: Order): Unit = //validate entire order : how many items correct, set order as done
     setOrderTotal(order, 0.0)
-    val item1Correct = isItemCorrect(preparedItems.head, order.items.head) //validate first item
-    val item2Correct = isItemCorrect(preparedItems(1), order.items(1)) //validate second item
+    val item1Correct = isItemCorrect(preparedItems.head, order.items.head)
+    val item2Correct = isItemCorrect(preparedItems(1), order.items(1))
 
     if item1Correct then
       setOrderTotal(order, order.orderTotal + order.items.head.price)
@@ -76,6 +74,11 @@ class OrderController:
 
     orderDone(order)//set order as done
 
+  //listener to display order countdown
+  private var orderUpdateListener: Int => Unit = _
+  def setupOrderUpdateListener(listener: Int => Unit): Unit =
+    orderUpdateListener = listener
+
   //update the order's remaining time if order is in activeOrders list
   private def updateOrderTimeLeft(order: Order): Unit =
     if order.orderTimeLeft > 0 && isOrderActive(order) then
@@ -83,12 +86,18 @@ class OrderController:
       println("-------")
       println(s"Order Time Left: ${order.orderTimeLeft}")
 
+
+  var onOrderExpired: Order => Unit = _
+
   //update all active orders' status accordingly - to be called in Timer
   def updateActiveOrders(): Unit =
     for i <- activeOrders.indices.reverse do //using a reverse loop - recommended by chatgpt
       val activeOrder = activeOrders(i)
       if activeOrder.orderTimeLeft == 0 then
         orderExpired(activeOrder)
+        if onOrderExpired != null then onOrderExpired(activeOrder)
         removeOrder(i)
       else
         updateOrderTimeLeft(activeOrder)
+        if orderUpdateListener != null then
+          orderUpdateListener(activeOrder.orderTimeLeft)

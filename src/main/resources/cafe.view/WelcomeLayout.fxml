@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="welcomeBackground" stylesheets="@../cafe.css/CafeGameTheme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cafe.controller.WelcomeLayoutController">
+   <children>
+      <Button fx:id="startGameBtn" layoutX="300.0" layoutY="300.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="203.0" styleClass="welcomeBtn" text="Start Game!" textFill="#33443c">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font></Button>
+      <Button layoutX="300.0" layoutY="356.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="203.0" styleClass="welcomeBtn" text="Menu" textFill="#33443c" />
+      <Button layoutX="300.0" layoutY="414.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="203.0" styleClass="welcomeBtn" text="How to Play" textFill="#33443c" />
+   </children>
+</AnchorPane>

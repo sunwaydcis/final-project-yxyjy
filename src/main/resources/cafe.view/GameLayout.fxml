@@ -9,8 +9,8 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -22,43 +22,55 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="background" stylesheets="@../cafe.css/CafeGameTheme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cafe.controller.GameLayoutController">
    <children>
-      <Pane layoutY="-4.0" prefHeight="78.0" prefWidth="900.0" style="-fx-background-color: #fff1dd;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-4.0">
+      <HBox fx:id="activeCustomersDisplay" alignment="TOP_CENTER" layoutX="223.2" layoutY="139.0" prefHeight="139.0" prefWidth="339.0" spacing="10.0" AnchorPane.bottomAnchor="321.8" AnchorPane.leftAnchor="223.2" AnchorPane.rightAnchor="337.60000000000014" AnchorPane.topAnchor="139.0">
+         <opaqueInsets>
+            <Insets top="10.0" />
+         </opaqueInsets>
          <children>
-            <MenuBar fx:id="menuBar" layoutY="1.0" prefHeight="26.0" prefWidth="900.0" styleClass="menuBar">
-              <menus>
-                <Menu mnemonicParsing="false" text="File">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="Close" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
-                  </items>
-                </Menu>
-              </menus>
-            </MenuBar>
+            <ImageView fx:id="customerSlot1" fitHeight="138.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../cafe.media/3.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="customerSlot3" fitHeight="140.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../cafe.media/1.png" />
+               </image>
+            </ImageView>
          </children>
-      </Pane>
-      <Pane layoutX="27.2" layoutY="41.0" prefHeight="58.0" prefWidth="844.0" styleClass="statusPane" AnchorPane.leftAnchor="27.2" AnchorPane.rightAnchor="28.799999999999955" AnchorPane.topAnchor="41.0">
+      </HBox>
+      <MenuBar prefHeight="58.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" styleClass="menuBarLink" text="Pause">
+               <items>
+                  <MenuItem mnemonicParsing="false" styleClass="menuBarLink" text="Back to Home" />
+                  <MenuItem mnemonicParsing="false" styleClass="menuBarLink" text="View Cafe Menu" />
+                  <MenuItem mnemonicParsing="false" styleClass="menuBarLink" text="How to Play" />
+               </items>
+          </Menu>
+        </menus>
+         <styleClass>
+            <String fx:value="menuBarLink" />
+            <String fx:value="menuBar" />
+         </styleClass>
+      </MenuBar>
+      <Pane layoutX="27.2" layoutY="41.0" prefHeight="69.0" prefWidth="844.0" styleClass="statusPane" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="29.0" AnchorPane.topAnchor="41.0">
          <children>
-            <Label fx:id="timeLeftLabel" layoutX="71.0" layoutY="22.0" styleClass="itemLabel" text="00:00" />
-            <Label fx:id="moneyEarnedLabel" layoutX="169.0" layoutY="22.0" styleClass="itemLabel" text="0.00" />
-            <ImageView fitHeight="38.0" fitWidth="33.0" layoutX="29.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+            <Label fx:id="timeLeftLabel" layoutX="68.0" layoutY="27.0" styleClass="itemLabel" text="00:00" />
+            <Label fx:id="moneyEarnedLabel" layoutX="166.0" layoutY="27.0" styleClass="itemLabel" text="0.00" />
+            <ImageView fitHeight="38.0" fitWidth="33.0" layoutX="26.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../cafe.media/time.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="123.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="120.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../cafe.media/money.png" />
                </image>
             </ImageView>
+            <Label fx:id="currentOrderText" layoutX="306.0" layoutY="9.0" prefHeight="50.0" prefWidth="219.0" styleClass="customerOrderText" text="Customer's order: " textAlignment="CENTER" textFill="#93a07d" wrapText="true" />
+            <Label fx:id="expiredOrderText" layoutX="567.0" layoutY="5.0" prefHeight="58.0" prefWidth="231.0" text="Time is ticking..." textFill="#93a07d" wrapText="true" />
+            <Label fx:id="moneyEarned" layoutX="161.0" layoutY="43.0" prefHeight="15.0" prefWidth="58.0" styleClass="itemLabel" />
          </children>
          <effect>
             <DropShadow blurType="GAUSSIAN" height="15.0" offsetY="2.0" radius="3.5" width="1.0">
@@ -69,33 +81,27 @@
          </effect>
       </Pane>
        
-      <ButtonBar buttonMinWidth="100.0" layoutX="15.2" layoutY="529.4" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="30.600000000000023" AnchorPane.leftAnchor="15.2" AnchorPane.rightAnchor="653.5999999999999" AnchorPane.topAnchor="529.6">
+      <ButtonBar buttonMinWidth="100.0" layoutX="11.0" layoutY="529.6" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="30.399999999999977" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="657.8" AnchorPane.topAnchor="529.6">
         <buttons>
             <Button fx:id="item1Toggle" layoutX="135.0" layoutY="17.0" mnemonicParsing="false" prefHeight="33.0" styleClass="itemToggleBtn" stylesheets="@../cafe.css/CafeGameTheme.css" text="Item 1" textAlignment="CENTER" />
           <Button fx:id="item2Toggle" mnemonicParsing="false" prefHeight="37.0" styleClass="itemToggleBtn" stylesheets="@../cafe.css/CafeGameTheme.css" text="Item 2" textAlignment="CENTER" />
         </buttons>
       </ButtonBar>
-      <Label fx:id="currentlyMakingText" layoutX="42.4" layoutY="510.0" text="Currently making: Item 1" textFill="#00918c" AnchorPane.bottomAnchor="74.40000000000002" AnchorPane.leftAnchor="42.4" AnchorPane.topAnchor="510.0" />
-      <Button fx:id="removeItem" layoutX="711.2" layoutY="534.4" mnemonicParsing="false" onAction="#removeItemBtn" prefHeight="31.0" prefWidth="154.0" styleClass="itemToggleBtn" stylesheets="@../cafe.css/CafeGameTheme.css" text="Remove Item" textAlignment="CENTER" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="711.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="534.0">
+      <Label fx:id="currentlyMakingText" layoutX="36.6" layoutY="510.4" text="Currently making: Item 1" textFill="#93a07d" AnchorPane.bottomAnchor="74.39999999999998" AnchorPane.leftAnchor="36.6" AnchorPane.topAnchor="510.4" />
+      <Button fx:id="removeItem" layoutX="710.2" layoutY="524.0" mnemonicParsing="false" onAction="#removeItemBtn" prefHeight="31.0" prefWidth="154.0" styleClass="itemToggleBtn" stylesheets="@../cafe.css/CafeGameTheme.css" text="Clear Item" textAlignment="CENTER" AnchorPane.bottomAnchor="45.60000000000002" AnchorPane.leftAnchor="710.2" AnchorPane.rightAnchor="36.200000000000045" AnchorPane.topAnchor="524.0" />
+      <Button fx:id="serve1" layoutX="350.4" layoutY="521.4" mnemonicParsing="false" onAction="#serveOrderBtn" prefHeight="31.0" prefWidth="198.0" styleClass="serveBtn" stylesheets="@../cafe.css/CafeGameTheme.css" text="Serve!" textAlignment="CENTER" AnchorPane.bottomAnchor="49.0" AnchorPane.leftAnchor="350.4" AnchorPane.rightAnchor="352.0" AnchorPane.topAnchor="521.4">
          <effect>
             <DropShadow height="10.0" offsetY="2.0" radius="4.5" width="10.0">
                <color>
-                  <Color opacity="0.2773556113243103" />
+                  <Color opacity="0.4688449800014496" />
                </color>
             </DropShadow>
          </effect></Button>
-      <Button fx:id="serve1" layoutX="351.0" layoutY="534.0" mnemonicParsing="false" onAction="#serveOrderBtn" prefHeight="31.0" prefWidth="198.0" styleClass="serveBtn" stylesheets="@../cafe.css/CafeGameTheme.css" text="Serve!" textAlignment="CENTER" AnchorPane.bottomAnchor="35.60000000000002" AnchorPane.leftAnchor="351.0" AnchorPane.rightAnchor="350.5999999999999" AnchorPane.topAnchor="534.0">
-         <effect>
-            <Glow level="0.45" />
-         </effect></Button>
-      <Label fx:id="itemDescription" layoutX="334.0" layoutY="508.0" prefHeight="20.0" prefWidth="231.0" textAlignment="CENTER" textFill="#568366" AnchorPane.bottomAnchor="72.0" AnchorPane.leftAnchor="334.0" AnchorPane.rightAnchor="334.79999999999995" />
-      <Button fx:id="viewOrder" contentDisplay="CENTER" layoutX="663.2" layoutY="159.4" mnemonicParsing="false" onAction="#showOrderPreview" prefHeight="30.0" prefWidth="100.0" styleClass="viewOrder" stylesheets="@../cafe.css/CafeGameTheme.css" text="View Order" textAlignment="CENTER" AnchorPane.bottomAnchor="411.0" AnchorPane.leftAnchor="663.2" AnchorPane.rightAnchor="136.79999999999995" AnchorPane.topAnchor="159.4">
+      <Label fx:id="itemDescription" layoutX="332.8" layoutY="558.2" prefHeight="20.0" prefWidth="231.0" textAlignment="CENTER" textFill="#93a07d" AnchorPane.bottomAnchor="21.799999999999955" AnchorPane.leftAnchor="332.8" AnchorPane.rightAnchor="336.0" />
+      <Button fx:id="viewOrder" contentDisplay="CENTER" layoutX="660.0" layoutY="202.6" mnemonicParsing="false" onAction="#showOrderPreview" prefHeight="30.0" prefWidth="100.0" styleClass="viewOrder" stylesheets="@../cafe.css/CafeGameTheme.css" text="View Order" textAlignment="CENTER" AnchorPane.bottomAnchor="367.80000000000007" AnchorPane.leftAnchor="660.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="202.6">
          <font>
             <Font name="Arial Bold" size="4.0" />
          </font>
-         <effect>
-            <Glow />
-         </effect>
       </Button>
       <Button fx:id="milk" contentDisplay="GRAPHIC_ONLY" graphicTextGap="1.0" layoutX="781.6" layoutY="257.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="38.0" stylesheets="@../cafe.css/CafeGameTheme.css" text="milk" textFill="TRANSPARENT" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="256.8">
          <cursor>
@@ -111,19 +117,19 @@
             <String fx:value="ingredientBtn" />
          </styleClass>
       </Button>
-      <Button fx:id="chocolatesyrup" contentDisplay="GRAPHIC_ONLY" layoutX="307.2" layoutY="239.8" mnemonicParsing="false" prefHeight="132.0" prefWidth="56.0" text="chocolatesyrup" AnchorPane.bottomAnchor="233.0" AnchorPane.leftAnchor="307.2" AnchorPane.rightAnchor="538.4000000000001" AnchorPane.topAnchor="239.8">
+      <Button fx:id="chocolatesyrup" contentDisplay="GRAPHIC_ONLY" layoutX="288.0" layoutY="237.8" mnemonicParsing="false" prefHeight="133.0" prefWidth="54.0" text="chocolatesyrup" AnchorPane.bottomAnchor="230.2" AnchorPane.leftAnchor="288.0" AnchorPane.rightAnchor="558.4" AnchorPane.topAnchor="237.8">
          <styleClass>
             <String fx:value="chocsyrupBtn" />
             <String fx:value="ingredientBtn" />
          </styleClass>
       </Button>
-      <Button fx:id="caramelsyrup" contentDisplay="GRAPHIC_ONLY" layoutX="254.0" layoutY="230.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="63.0" text="caramelsyrup" AnchorPane.bottomAnchor="230.79999999999995" AnchorPane.leftAnchor="254.0" AnchorPane.rightAnchor="583.6" AnchorPane.topAnchor="230.0">
+      <Button fx:id="caramelsyrup" contentDisplay="GRAPHIC_ONLY" layoutX="240.0" layoutY="230.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="63.0" text="caramelsyrup" AnchorPane.bottomAnchor="230.79999999999995" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="598.4" AnchorPane.topAnchor="230.0">
          <styleClass>
             <String fx:value="caramelsyrupBtn" />
             <String fx:value="ingredientBtn" />
          </styleClass>
       </Button>
-      <Button fx:id="matchapowder" contentDisplay="GRAPHIC_ONLY" layoutX="364.0" layoutY="296.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="58.0" text="matchapowder" AnchorPane.bottomAnchor="235.0" AnchorPane.leftAnchor="364.0" AnchorPane.rightAnchor="478.0" AnchorPane.topAnchor="296.0">
+      <Button fx:id="matchapowder" contentDisplay="GRAPHIC_ONLY" layoutX="333.8" layoutY="302.4" mnemonicParsing="false" prefHeight="69.0" prefWidth="58.0" text="matchapowder" AnchorPane.bottomAnchor="228.8" AnchorPane.leftAnchor="333.8" AnchorPane.rightAnchor="508.59999999999997" AnchorPane.topAnchor="302.4">
          <styleClass>
             <String fx:value="matchapowderBtn" />
             <String fx:value="ingredientBtn" />
@@ -171,22 +177,31 @@
             <String fx:value="ingredientBtn" />
          </styleClass>
       </Button>
-      <HBox fx:id="tray" alignment="BOTTOM_CENTER" layoutX="271.2" layoutY="351.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="110.0" prefWidth="358.0" styleClass="stackPane" AnchorPane.bottomAnchor="138.60000000000002" AnchorPane.leftAnchor="271.2" AnchorPane.rightAnchor="271.20000000000005">
+      <HBox fx:id="tray" alignment="BOTTOM_CENTER" layoutX="271.2" layoutY="350.20000000000005" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="104.0" prefWidth="358.0" styleClass="stackPane" AnchorPane.bottomAnchor="139.0" AnchorPane.leftAnchor="271.0" AnchorPane.rightAnchor="271.0">
          <children>
-            <ImageView fx:id="item1" fitHeight="101.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="item2" fitHeight="101.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="item1" fitHeight="82.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="item2" fitHeight="85.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" />
          </children>
          <padding>
-            <Insets bottom="18.0" />
+            <Insets bottom="15.0" />
          </padding></HBox>
-      <HBox alignment="CENTER" fillHeight="false" layoutX="578.4" layoutY="39.4" prefHeight="120.0" prefWidth="265.0" spacing="10.0" stylesheets="@../cafe.css/CafeGameTheme.css" AnchorPane.bottomAnchor="440.6" AnchorPane.leftAnchor="578.4" AnchorPane.rightAnchor="56.799999999999955" AnchorPane.topAnchor="39.4">
+      <HBox alignment="CENTER" fillHeight="false" layoutX="578.4" layoutY="87.0" prefHeight="120.0" prefWidth="265.0" spacing="10.0" stylesheets="@../cafe.css/CafeGameTheme.css" AnchorPane.bottomAnchor="393.0" AnchorPane.leftAnchor="578.4" AnchorPane.rightAnchor="58.39999999999998" AnchorPane.topAnchor="87.0">
          <children>
-            <Button fx:id="orderPreview1" contentDisplay="TEXT_ONLY" mnemonicParsing="false" styleClass="orderPreview" text="Button" />
-            <Button fx:id="orderPreview2" mnemonicParsing="false" styleClass="orderPreview" text="Button" />
-            <Button fx:id="orderPreview3" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="orderPreview" text="Button" />
+            <Button fx:id="orderPreview1" contentDisplay="TEXT_ONLY" mnemonicParsing="false" styleClass="orderPreview" text="Button">
+               <effect>
+                  <ColorAdjust brightness="0.2" contrast="0.2" />
+               </effect></Button>
+            <Button fx:id="orderPreview2" mnemonicParsing="false" styleClass="orderPreview" text="Button">
+               <effect>
+                  <ColorAdjust brightness="0.2" contrast="0.2" />
+               </effect></Button>
+            <Button fx:id="orderPreview3" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="orderPreview" text="Button">
+               <effect>
+                  <ColorAdjust brightness="0.2" contrast="0.2" />
+               </effect></Button>
          </children>
       </HBox>
-      <Circle fill="#00b4ae" layoutX="630.0" layoutY="55.0" radius="7.0" stroke="TRANSPARENT" strokeType="INSIDE">
+      <Circle fill="#93a07d" layoutX="790.0" layoutY="103.0" radius="7.0" stroke="#33443c" strokeType="INSIDE">
          <effect>
             <DropShadow height="6.96" offsetY="2.0" radius="1.81" width="2.28">
                <color>
@@ -195,7 +210,7 @@
             </DropShadow>
          </effect>
       </Circle>
-      <Circle fill="#00b4ae" layoutX="710.0" layoutY="55.0" radius="7.0" stroke="TRANSPARENT" strokeType="INSIDE">
+      <Circle fill="#93a07d" layoutX="710.0" layoutY="102.0" radius="7.0" stroke="#33443c" strokeType="INSIDE">
          <effect>
             <DropShadow height="6.96" offsetY="2.0" radius="1.81" width="2.28">
                <color>
@@ -204,7 +219,7 @@
             </DropShadow>
          </effect>
       </Circle>
-      <Circle fill="#00b4ae" layoutX="792.0" layoutY="55.0" radius="7.0" stroke="TRANSPARENT" strokeType="INSIDE">
+      <Circle fill="#929e7d" layoutX="628.0" layoutY="103.0" radius="7.0" stroke="#33443c" strokeType="INSIDE">
          <effect>
             <DropShadow height="6.96" offsetY="2.0" radius="1.81" width="2.28">
                <color>

@@ -3,8 +3,48 @@
     -fx-background-size: 92% 82%;
     -fx-background-position: center -10px;
     -fx-background-repeat: no-repeat;
-    -fx-background-color: #fff1dd;
+    -fx-background-color: #ffefd4;
 }
+
+.welcomeBackground {
+    -fx-background-image: url(../cafe.media/welcomebg.png);
+    -fx-background-size: 110% 100%;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: #ffefd4;
+}
+
+.endBackground{
+    -fx-background-image: url(../cafe.media/endbg.png);
+    -fx-background-size: 100% 100%;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: #ffefd4;
+}
+
+.endLabel{
+    -fx-font-size: 24px;
+    -fx-text-fill: #33443c;
+    -fx-font-weight: 700;
+}
+
+.welcomeBtn{
+    -fx-background-color: #ffefd4;
+    -fx-border-width: 3px;
+    -fx-border-radius: 20px;
+    -fx-border-color: #33443c;
+    -fx-text-fill: #33443c;
+    -fx-font-weight: 700;
+    -fx-background-radius: 25px;
+    -fx-pref-width: 300;
+    -fx-pref-height:40 ;
+    -fx-font-size: 20px;
+}
+
+.welcomeBtn:hover{
+    -fx-background-color: #dac6a4;
+}
+
 
 .orderBackground{
     -fx-background-color: #F3F6EB;
@@ -16,7 +56,7 @@
 
 .orderTitle{
     -fx-font-size: 22px;
-    -fx-text-fill: #568366;
+    -fx-text-fill: #93a07d;
     -fx-font-weight: 700;
     -fx-font-family: "Trebuchet MS";
 }
@@ -24,7 +64,7 @@
 .itemLabel{
     -fx-font-family: "Trebuchet MS";
     -fx-font-size: 12px;
-    -fx-text-fill: #568366;
+    -fx-text-fill: #93a07d;
     -fx-font-weight: 700;
 }
 
@@ -32,51 +72,71 @@
     -fx-background-image: url(../cafe.media/tray.png);
     -fx-background-size: 100% 50%;
     -fx-background-repeat: no-repeat;
-    -fx-background-position: center 60px;
+    -fx-background-position: center 50px;
 }
 
 .statusPane{
-    -fx-background-color: #b9eaea;
+    -fx-background-color: #e5dbc6;
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
+    -fx-border-color: #43724c;
+}
+
+.customerOrderText{
+    -fx-text-fill: #43724c;
+    -fx-font-weight: 700;
+    -fx-font-family: "Trebuchet MS";
+    -fx-text-alignment: center;
 }
 
 .menuBar{
-    -fx-background-color: #ffe8c6;
-    -fx-font-size: 12px;
-    -fx-font-family: "Trebuchet MS";
-    -fx-text-fill: #00918c;
-    -fx-font-weight: 700;
+    -fx-background-color: #ffefd4;
     -fx-pref-height: 50;
 }
 
+.menuBarLink{
+    -fx-font-size: 12px;
+    -fx-font-family: "Trebuchet MS";
+    -fx-text-fill:#93a07d;
+    -fx-font-weight: 700;
+    -fx-padding: 2px 10px;
+}
+
+.menuBarLink.hover{
+    -fx-background-color:#93a07d ;
+}
+
 .itemToggleBtn{
-    -fx-background-color: #00b4ae;
-    -fx-text-fill: white;
+    -fx-background-color: #e5dbc6;
+    -fx-border-width: 1px;
+    -fx-border-radius: 20px;
+    -fx-border-color: #93a07d;
+    -fx-text-fill: #93a07d;
     -fx-font-weight: 700;
     -fx-background-radius: 20px;
     -fx-font-size: 16px;
-    -fx-font-family: "Trebuchet MS";
+    -fx-font-family: "handwriting";
     -fx-pref-width: 100;
     -fx-pref-height:30 ;
 }
 
 .itemToggleBtn:focused{
-    -fx-background-color: #00918c;
+    -fx-background-color: #7c8f5b;
+    -fx-text-fill: #ffefd4;
 }
 
 .serveBtn{
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
-    -fx-background-color: #ffc64c;
-    -fx-text-fill: white;
+    -fx-background-color: #93a07d;
+    -fx-text-fill: #ffefd4;
     -fx-pref-width: 160px;
 }
 
 .text{
     -fx-font-size: 12px;
     -fx-font-family: "Trebuchet MS";
-    -fx-text-fill: #00918c;
+    -fx-text-fill: #93a07d;
     -fx-font-weight: 700;
 }
 
@@ -98,14 +158,17 @@
 }
 
 .viewOrder{
-    -fx-background-color: #00b4ae;
-    -fx-text-fill: white;
+    -fx-background-color: #93a07d;
+    -fx-text-fill: #ffefd4;
     -fx-font-weight: 700;
     -fx-background-radius: 20px;
     -fx-font-size: 12px;
     -fx-font-family: "Trebuchet MS";
     -fx-pref-width: 100;
     -fx-pref-height:20 ;
+    -fx-border-width: 2px;
+    -fx-border-radius: 20px;
+    -fx-border-color: #ffefd4;
 }
 
 /*Button images*/

@@ -1,7 +1,9 @@
 package cafe.controller
 
 import cafe.model.{Customer, Order}
-import cafe.model.status.{expired, done}
+import cafe.model.status.{done, expired}
+import javafx.scene.image.{Image, ImageView}
+
 import scala.collection.mutable.ArrayBuffer
 
 //handle customer related operations - customer comes into shop (becomes active - added into active list), customer leaves shop (removed from active list)
@@ -12,6 +14,16 @@ class CustomerController(totalCustomers: List[Customer], orderCtrl : OrderContro
 
   private var customerUpdateListener: () => Unit = _
 
+  def updateCustomerSatisfaction():Unit =
+    for customer <- activeCustomers do
+      val timeLeft = customer.order.orderTimeLeft
+      if timeLeft > 30 && timeLeft <= 50 then
+        customer.satisfaction = 3
+      else if timeLeft > 10 && timeLeft <= 30 then
+        customer.satisfaction = 2
+      else if timeLeft > 0 && timeLeft <= 10 then
+        customer.satisfaction = 1
+
   def setCustomerUpdateListener(listener: () => Unit): Unit =
     customerUpdateListener = listener
 
@@ -20,7 +32,7 @@ class CustomerController(totalCustomers: List[Customer], orderCtrl : OrderContro
     if index >= 0 && index < activeCustomers.size then
       val leavingCustomer = activeCustomers.remove(index)
       orderCtrl.removeCustomerOrder(leavingCustomer.order)
-      
+
     if nextCustomerIndex < totalCustomers.size && activeCustomers.size < 3 then
       val nextCustomer = totalCustomers(nextCustomerIndex)
       activeCustomers.append(nextCustomer)
