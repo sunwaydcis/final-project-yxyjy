@@ -4,13 +4,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="welcomeBackground" stylesheets="@../cafe.css/CafeGameTheme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cafe.controller.WelcomeLayoutController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="welcomeBackground" stylesheets="@../cafe.css/CafeGameTheme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cafe.controller.WelcomeLayoutController">
    <children>
-      <Button fx:id="startGameBtn" layoutX="300.0" layoutY="300.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="203.0" styleClass="welcomeBtn" text="Start Game!" textFill="#33443c">
+      <Button fx:id="startGameBtn" layoutX="350.0" layoutY="342.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="203.0" styleClass="welcomeBtn" text="Start Game!" textFill="#33443c">
          <font>
             <Font name="Arial" size="14.0" />
          </font></Button>
-      <Button layoutX="300.0" layoutY="356.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="203.0" styleClass="welcomeBtn" text="Menu" textFill="#33443c" />
-      <Button layoutX="300.0" layoutY="414.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="203.0" styleClass="welcomeBtn" text="How to Play" textFill="#33443c" />
+      <Button fx:id="cookbookBtn" layoutX="350.0" layoutY="398.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="203.0" styleClass="welcomeBtn" text="Cookbook" textFill="#33443c" />
+      <Button fx:id="helpBtn" layoutX="350.0" layoutY="456.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="203.0" styleClass="welcomeBtn" text="How to Play" textFill="#33443c" />
    </children>
 </AnchorPane>

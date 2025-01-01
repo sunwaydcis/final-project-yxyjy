@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="helpBackground2" stylesheets="@../cafe.css/CafeGameTheme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cafe.controller.HelpLayoutController">
+   <children>
+      <Button fx:id="prevPage" layoutX="26.0" layoutY="545.0" mnemonicParsing="false" prefWidth="62.0" styleClass="itemToggleBtn" text="Back" />
+   </children>
+</AnchorPane>

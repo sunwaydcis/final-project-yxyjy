@@ -1,4 +1,4 @@
-import cafe.controller.{EndLayoutController, GameController, GameLayoutController, WelcomeLayoutController}
+import cafe.controller.{EndLayoutController, GameController, GameLayoutController, HelpLayoutController, WelcomeLayoutController}
 import javafx.fxml.FXMLLoader
 import javafx.scene as jfxs
 import scalafx.Includes.*
@@ -9,16 +9,17 @@ import scalafx.scene as sfxs
 import scalafx.scene.Scene
 import scalafx.scene.layout.AnchorPane
 import scalafx.scene.text.Font
+import scalafx.stage.{Modality, Stage}
 
 
 object CafeGame extends JFXApp3:
   var roots: Option[sfxs.layout.AnchorPane] = None
 
   private var gameController: GameController = _
+  private var popupStage: Stage = _
 
   override def start(): Unit =
     loadWelcomeLayout()
-
 
   private def loadWelcomeLayout(): Unit =
     val rootResource = getClass.getResource("cafe.view/WelcomeLayout.fxml")
@@ -28,7 +29,12 @@ object CafeGame extends JFXApp3:
     val welcomeController = loader.getController[WelcomeLayoutController]
     welcomeController.startGameBtn.onAction = (_: ActionEvent) =>
       welcomeController.playWelcomeSound()
+      welcomeController.stopBgm()
       loadGameLayout()
+    welcomeController.helpBtn.onAction = (_: ActionEvent) =>
+      welcomeController.stopBgm()
+      welcomeController.playPopSound()
+      loadHelp1Layout()
 
     roots = Option(loader.getRoot[jfxs.layout.AnchorPane])
     stage = new PrimaryStage():
@@ -42,7 +48,12 @@ object CafeGame extends JFXApp3:
     loader.load()
 
     gameController = new GameController()
-    loader.getController[GameLayoutController].setGameController(gameController)
+    val control = loader.getController[GameLayoutController]
+    control.setGameController(gameController)
+    control.backToHomeBtn.onAction = (_:ActionEvent) =>
+      loadWelcomeLayout()
+    control.howToPlayBtn.onAction = (_:ActionEvent) =>
+      loadHelp1Layout()
     gameController.setGameOverCallback(() => loadEndLayout())
     gameController.startGame()
 
@@ -66,5 +77,46 @@ object CafeGame extends JFXApp3:
 
     controller.totalMoneyEarnedLabel()
     controller.totalCustomersServedLabel()
+
+  private def loadHelp1Layout(): Unit =
+    val rootResource = getClass.getResource("/cafe.view/HelpLayout.fxml")
+    val loader = new FXMLLoader(rootResource)
+    loader.load()
+
+    val helpRoot = loader.getRoot[jfxs.Parent]
+    val control = loader.getController[HelpLayoutController]
+
+    control.nextPage.onAction = (_:ActionEvent) =>
+      control.playPopSound()
+      loadHelp2Layout()
+
+
+    if popupStage == null then
+      popupStage = new Stage():
+        initModality(Modality.ApplicationModal)
+    popupStage.scene = new Scene(helpRoot)
+
+    if !popupStage.isShowing then
+      popupStage.showAndWait()
+
+  private def loadHelp2Layout(): Unit =
+    val rootResource = getClass.getResource("/cafe.view/HelpLayout2.fxml")
+    val loader = new FXMLLoader(rootResource)
+    loader.load()
+
+    val helpRoot = loader.getRoot[jfxs.Parent]
+    val control = loader.getController[HelpLayoutController]
+
+    control.prevPage.onAction = (_: ActionEvent) =>
+      control.playPopSound()
+      loadHelp1Layout()
+
+
+    if popupStage == null then
+      popupStage = new Stage():
+        initModality(Modality.ApplicationModal)
+    popupStage.scene = new Scene(helpRoot)
+    popupStage.showAndWait()
+
 
 end CafeGame

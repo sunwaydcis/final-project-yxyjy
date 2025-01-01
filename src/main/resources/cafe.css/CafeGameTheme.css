@@ -28,6 +28,22 @@
     -fx-font-weight: 700;
 }
 
+.helpBackground1{
+    -fx-background-image: url(../cafe.media/help2bg.png);
+    -fx-background-size: 110% 100%;
+    -fx-background-position: center -24px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: #ffefd4;
+}
+
+.helpBackground2{
+    -fx-background-image: url(../cafe.media/help1bg.png);
+    -fx-background-size: 110% 100%;
+    -fx-background-position: center -24px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: #ffefd4;
+}
+
 .welcomeBtn{
     -fx-background-color: #ffefd4;
     -fx-border-width: 3px;
@@ -44,7 +60,6 @@
 .welcomeBtn:hover{
     -fx-background-color: #dac6a4;
 }
-
 
 .orderBackground{
     -fx-background-color: #F3F6EB;
@@ -72,7 +87,7 @@
     -fx-background-image: url(../cafe.media/tray.png);
     -fx-background-size: 100% 50%;
     -fx-background-repeat: no-repeat;
-    -fx-background-position: center 50px;
+    -fx-background-position: center 60px;
 }
 
 .statusPane{

@@ -8,11 +8,12 @@ import cafe.model.{Order, ingredients}
 import javafx.fxml.{FXML, FXMLLoader}
 import scalafx.Includes.*
 import scalafx.event.ActionEvent
-import javafx.scene.control.{Button, Label}
+import javafx.scene.control.{Button, Label, MenuItem}
 import javafx.scene.image.{Image, ImageView}
 import javafx.scene.layout.HBox
 import javafx.util.Duration
 import scalafx.animation.{FadeTransition, ParallelTransition, PauseTransition, TranslateTransition}
+import scalafx.collections.ObservableBuffer
 import scalafx.scene.{Node, Parent, Scene}
 import scalafx.scene.media.{Media, MediaPlayer}
 import scalafx.stage.{Modality, Stage}
@@ -41,6 +42,9 @@ class GameLayoutController:
   @FXML private var currentOrderText: Label = _
   @FXML private var expiredOrderText: Label = _
   @FXML private var moneyEarned: Label = _
+  @FXML var backToHomeBtn: MenuItem = _
+  @FXML var viewCookbookBtn: MenuItem = _
+  @FXML var howToPlayBtn: MenuItem = _
 
   //ingredient fxml
   @FXML private var milk: Button = _
@@ -58,17 +62,21 @@ class GameLayoutController:
   //@FXML private var whippedcream: Button = _
 
   private var currentItem: Int = 1
+  private var playerItemObserve1: ObservableBuffer[String] = ObservableBuffer()
+  private var playerItemObserve2: ObservableBuffer[String] = ObservableBuffer()
   private var playerItem1: List[String] = List()
   private var playerItem2: List[String] = List()
   private var playerItem1Desc: String = ""
   private var playerItem2Desc: String = ""
+
+  //sound effects
   private val clickSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/click.mp3").toURI.toString))
   private val popSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/pop.mp3").toURI.toString))
   private val kachingSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/kaching.mp3").toURI.toString))
+  private val bgm: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/bgm.mp3").toURI.toString))
 
   //game controller setup
   private var gameCtrl: GameController = _
-
   def setGameController(controller: GameController): Unit =
     this.gameCtrl = controller
     gameCtrl.setupTimeUpdateListener(updateTimeLeft)
@@ -84,6 +92,7 @@ class GameLayoutController:
 
     currentlyMakingText.setText("Game Start!")
     moneyEarnedLabel.setText("0.00")
+    playBgm()
 
     orderPreview1.onAction = (_: ActionEvent) => selectOrder(0)
     orderPreview2.onAction = (_: ActionEvent) => selectOrder(1)
@@ -113,26 +122,14 @@ class GameLayoutController:
     catch
       case e: Exception =>
         println(s"Error playing sound: ${e.getMessage}")
+  private def playBgm(): Unit =
+    try
+      bgm.cycleCount = 99
+      bgm.play()
+    catch
+    case e: Exception =>
+      println(s"Error playing sound: ${e.getMessage}")
 
-  //refresh UI
-  private def refreshUI(): Unit =
-    // clear fields
-    if playerItem1 != null then
-      playerItem1 = List()
-      playerItem1Desc = ""
-
-    if playerItem2 != null then
-      playerItem2 = List()
-      playerItem2Desc = ""
-
-    if item1 != null then
-      item1.setImage(null)
-
-    if item2 != null then
-      item2.setImage(null)
-
-    currentOrderText.setText("Customer's order:")
-    itemDescription.setText("")
 
   //toggle between two items
   private def itemToggle(item: Int): Unit =
@@ -162,11 +159,6 @@ class GameLayoutController:
   @FXML private def showOrderPreview():Unit=
     playPopSound()
     val resource = getClass.getResource("/cafe.view/OrderLayout.fxml")
-    if (resource == null) {
-      println("FXML file not found!")
-    } else {
-      println(s"FXML file found at: $resource")
-    }
     val loader = new FXMLLoader(resource)
     loader.load()
     val orderRoot = loader.getRoot[jfxs.Parent]
@@ -203,6 +195,8 @@ class GameLayoutController:
         playerItem2Desc = ("")
       itemDescription.setText("")
 
+  //
+
   //set up click action for each ingredient
   private def setupIngredientClick(ingredient: Button): Unit =
     ingredient.onAction = (_: ActionEvent) =>
@@ -225,7 +219,40 @@ class GameLayoutController:
         case None =>
           println(s"Ingredient $ingredientName not found")
 
-  //show the ingredients selected by the players
+  //serve order, update customers and orders
+  @FXML private def serveOrderBtn(): Unit =
+    playKachingSound()
+
+    gameCtrl.playerPreparedOrder = List(playerItem1, playerItem2)
+    println(gameCtrl.playerPreparedOrder)
+    gameCtrl.whenOrderDone()
+    moneyEarnedLabelText()
+
+    refreshUI()
+
+
+  //===UI UPDATES====
+  //refresh UI
+  private def refreshUI(): Unit =
+    // clear fields
+    if playerItem1 != null then
+      playerItem1 = List()
+      playerItem1Desc = ""
+
+    if playerItem2 != null then
+      playerItem2 = List()
+      playerItem2Desc = ""
+
+    if item1 != null then
+      item1.setImage(null)
+
+    if item2 != null then
+      item2.setImage(null)
+
+    currentOrderText.setText("Customer's order:")
+    itemDescription.setText("")
+
+  //update ingredients selected by the players
   private def itemDescriptionText(): Unit =
     if currentItem == 1 then
       playerItem1Desc = "Item 1: " + playerItem1.mkString(" ")
@@ -238,27 +265,19 @@ class GameLayoutController:
   private def updateExpiredOrderText(order:Order): Unit =
     val item1 = order.items.head.name
     val item2 = order.items(1).name
-    expiredOrderText.setText(s"Order " + item1 + ", " + item2 + "has expired!")
+    expiredOrderText.setText(s"Order " + item1 + ", " + item2 + " has expired!")
 
     val resetMessage = new PauseTransition(Duration.seconds(3)) // 1-second delay
-    resetMessage.onFinished = _ => expiredOrderText.setText("Time is ticking...") // Reset to default
+    resetMessage.onFinished = _ => expiredOrderText.setText("Time is ticking...")
     resetMessage.play()
 
   //update money earned
   private def moneyEarnedLabelText(): Unit =
     moneyEarnedLabel.setText(gameCtrl.moneyEarned.toString)
 
+  //update timer UI
   private def updateTimeLeft(time: Int): Unit =
     timeLeftLabel.setText(time.toString)
 
-  //serve order, update customers and orders
-  @FXML private def serveOrderBtn(): Unit =
-    playKachingSound()
 
-    gameCtrl.playerPreparedOrder = List(playerItem1, playerItem2)
-    println(gameCtrl.playerPreparedOrder)
-    gameCtrl.whenOrderDone()
-    moneyEarnedLabelText()
-
-    refreshUI()
 
