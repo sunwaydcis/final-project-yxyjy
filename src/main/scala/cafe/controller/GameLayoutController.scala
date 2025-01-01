@@ -2,6 +2,7 @@ package cafe.controller
 
 import cafe.model.Customer
 import cafe.model.status.expired
+import cafe.util.Sound
 import scalafx.scene as sfxs
 import javafx.scene as jfxs
 import cafe.model.{Order, ingredients}
@@ -15,9 +16,7 @@ import javafx.util.Duration
 import scalafx.animation.{FadeTransition, ParallelTransition, PauseTransition, TranslateTransition}
 import scalafx.collections.ObservableBuffer
 import scalafx.scene.{Node, Parent, Scene}
-import scalafx.scene.media.{Media, MediaPlayer}
 import scalafx.stage.{Modality, Stage}
-
 import java.io.File
 import scala.collection.mutable.ArrayBuffer
 
@@ -59,7 +58,7 @@ class GameLayoutController:
   @FXML private var pistachiocake: Button = _
   @FXML private var strawberryshortcake: Button = _
   @FXML private var tiramisu: Button =_
-  //@FXML private var whippedcream: Button = _
+  @FXML private var whippedcream: Button = _
 
   private var currentItem: Int = 1
   private var playerItemObserve1: ObservableBuffer[String] = ObservableBuffer()
@@ -68,12 +67,6 @@ class GameLayoutController:
   private var playerItem2: List[String] = List()
   private var playerItem1Desc: String = ""
   private var playerItem2Desc: String = ""
-
-  //sound effects
-  private val clickSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/click.mp3").toURI.toString))
-  private val popSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/pop.mp3").toURI.toString))
-  private val kachingSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/kaching.mp3").toURI.toString))
-  private val bgm: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/bgm.mp3").toURI.toString))
 
   //game controller setup
   private var gameCtrl: GameController = _
@@ -85,51 +78,20 @@ class GameLayoutController:
   //initialize
   def initialize(): Unit =
     println("initialize() called")
-    val ingredientButtons: List[Button] = List(milk, espresso, cup, caramelsyrup, chocolatesyrup, croissant, glass, ice, matchapowder, pistachiocake, strawberryshortcake, tiramisu)
+    val ingredientButtons: List[Button] = List(milk, espresso, cup, caramelsyrup, chocolatesyrup, croissant, glass, ice, matchapowder, pistachiocake, strawberryshortcake, tiramisu, whippedcream)
 
     for ingredient <- ingredientButtons do
       setupIngredientClick(ingredient)
 
     currentlyMakingText.setText("Game Start!")
     moneyEarnedLabel.setText("0.00")
-    playBgm()
+    Sound.playBgm()
 
     orderPreview1.onAction = (_: ActionEvent) => selectOrder(0)
     orderPreview2.onAction = (_: ActionEvent) => selectOrder(1)
     orderPreview3.onAction = (_: ActionEvent) => selectOrder(2)
     item1Toggle.onAction = (_: ActionEvent) => itemToggle(1)
     item2Toggle.onAction = (_: ActionEvent) => itemToggle(2)
-
-  //sound effects
-  private def playClickSound(): Unit =
-    try
-      clickSound.stop()
-      clickSound.play()
-    catch
-      case e: Exception =>
-        println(s"Error playing sound: ${e.getMessage}")
-  private def playPopSound(): Unit =
-    try
-      popSound.stop()
-      popSound.play()
-    catch
-      case e: Exception =>
-        println(s"Error playing sound: ${e.getMessage}")
-  private def playKachingSound(): Unit =
-    try
-      kachingSound.stop()
-      kachingSound.play()
-    catch
-      case e: Exception =>
-        println(s"Error playing sound: ${e.getMessage}")
-  private def playBgm(): Unit =
-    try
-      bgm.cycleCount = 99
-      bgm.play()
-    catch
-    case e: Exception =>
-      println(s"Error playing sound: ${e.getMessage}")
-
 
   //toggle between two items
   private def itemToggle(item: Int): Unit =
@@ -140,12 +102,12 @@ class GameLayoutController:
       case 1 => itemDescription.setText(playerItem1Desc)
       case 2 => itemDescription.setText(playerItem2Desc)
 
-    playPopSound()
+    Sound.playPopSound()
 
   //select and view orders
   private def selectOrder(index: Int): Unit =
 
-    playPopSound()
+    Sound.playPopSound()
     gameCtrl.currentOrderIndex = index
     gameCtrl.updateCurrentOrder()
     val item1Name: String = gameCtrl.currentOrder.items.head.name
@@ -157,7 +119,7 @@ class GameLayoutController:
 
   //view full order (calls OrderLayout)
   @FXML private def showOrderPreview():Unit=
-    playPopSound()
+    Sound.playPopSound()
     val resource = getClass.getResource("/cafe.view/OrderLayout.fxml")
     val loader = new FXMLLoader(resource)
     loader.load()
@@ -177,7 +139,7 @@ class GameLayoutController:
 
   //clear item from tray
   @FXML private def removeItemBtn(): Unit =
-    playPopSound()
+    Sound.playPopSound()
 
     if currentItem == 1 then
       if item1 != null then
@@ -195,14 +157,12 @@ class GameLayoutController:
         playerItem2Desc = ("")
       itemDescription.setText("")
 
-  //
-
   //set up click action for each ingredient
   private def setupIngredientClick(ingredient: Button): Unit =
     ingredient.onAction = (_: ActionEvent) =>
       val ingredientName = ingredient.getText
       val selectedIngredient = ingredients.find(_.name == ingredientName)
-      playClickSound()
+      Sound.playClickSound()
 
       selectedIngredient match
         case Some(ingredient) =>
@@ -221,7 +181,7 @@ class GameLayoutController:
 
   //serve order, update customers and orders
   @FXML private def serveOrderBtn(): Unit =
-    playKachingSound()
+    Sound.playKachingSound()
 
     gameCtrl.playerPreparedOrder = List(playerItem1, playerItem2)
     println(gameCtrl.playerPreparedOrder)
@@ -229,7 +189,6 @@ class GameLayoutController:
     moneyEarnedLabelText()
 
     refreshUI()
-
 
   //===UI UPDATES====
   //refresh UI

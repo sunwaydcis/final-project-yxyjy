@@ -1,4 +1,7 @@
+package cafe
+
 import cafe.controller.{EndLayoutController, GameController, GameLayoutController, HelpLayoutController, WelcomeLayoutController}
+import cafe.util.Sound
 import javafx.fxml.FXMLLoader
 import javafx.scene as jfxs
 import scalafx.Includes.*
@@ -11,7 +14,6 @@ import scalafx.scene.layout.AnchorPane
 import scalafx.scene.text.Font
 import scalafx.stage.{Modality, Stage}
 
-
 object CafeGame extends JFXApp3:
   var roots: Option[sfxs.layout.AnchorPane] = None
 
@@ -22,18 +24,18 @@ object CafeGame extends JFXApp3:
     loadWelcomeLayout()
 
   private def loadWelcomeLayout(): Unit =
-    val rootResource = getClass.getResource("cafe.view/WelcomeLayout.fxml")
+    val rootResource = getClass.getResource("/cafe.view/WelcomeLayout.fxml")
     val loader = new FXMLLoader(rootResource)
     loader.load()
 
     val welcomeController = loader.getController[WelcomeLayoutController]
     welcomeController.startGameBtn.onAction = (_: ActionEvent) =>
-      welcomeController.playWelcomeSound()
-      welcomeController.stopBgm()
+      Sound.playWelcomeSound()
+      Sound.stopBgm()
       loadGameLayout()
     welcomeController.helpBtn.onAction = (_: ActionEvent) =>
-      welcomeController.stopBgm()
-      welcomeController.playPopSound()
+      Sound.stopBgm()
+      Sound.playPopSound()
       loadHelp1Layout()
 
     roots = Option(loader.getRoot[jfxs.layout.AnchorPane])
@@ -43,7 +45,7 @@ object CafeGame extends JFXApp3:
         root = roots.get
 
   private def loadGameLayout(): Unit =
-    val rootResource = getClass.getResource("cafe.view/GameLayout.fxml")
+    val rootResource = getClass.getResource("/cafe.view/GameLayout.fxml")
     val loader = new FXMLLoader(rootResource)
     loader.load()
 
@@ -62,12 +64,14 @@ object CafeGame extends JFXApp3:
       root = roots.get
 
   private def loadEndLayout(): Unit =
-    val rootResource = getClass.getResource("cafe.view/EndLayout.fxml")
+    val rootResource = getClass.getResource("/cafe.view/EndLayout.fxml")
     val loader = new FXMLLoader(rootResource)
     loader.load()
+    Sound.playWelcomeSound()
     val controller = loader.getController[EndLayoutController]
     controller.backToHome.onAction = (_: ActionEvent) =>
-      controller.playPopSound()
+      Sound.stopBgm()
+      Sound.playPopSound()
       loadWelcomeLayout()
     controller.setGameController(gameController)
 

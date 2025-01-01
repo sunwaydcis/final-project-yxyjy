@@ -117,19 +117,19 @@
             <String fx:value="ingredientBtn" />
          </styleClass>
       </Button>
-      <Button fx:id="chocolatesyrup" contentDisplay="GRAPHIC_ONLY" layoutX="341.0" layoutY="289.0" mnemonicParsing="false" prefHeight="137.0" prefWidth="62.0" text="chocolatesyrup" AnchorPane.bottomAnchor="273.6" AnchorPane.leftAnchor="341.0" AnchorPane.rightAnchor="596.8000000000001" AnchorPane.topAnchor="289.0">
+      <Button fx:id="chocolatesyrup" contentDisplay="GRAPHIC_ONLY" layoutX="341.0" layoutY="289.0" mnemonicParsing="false" prefHeight="138.0" prefWidth="53.0" text="chocolatesyrup" AnchorPane.bottomAnchor="273.0" AnchorPane.leftAnchor="341.0" AnchorPane.rightAnchor="606.0" AnchorPane.topAnchor="289.0">
          <styleClass>
             <String fx:value="chocsyrupBtn" />
             <String fx:value="ingredientBtn" />
          </styleClass>
       </Button>
-      <Button fx:id="caramelsyrup" contentDisplay="GRAPHIC_ONLY" layoutX="287.0" layoutY="287.2" mnemonicParsing="false" prefHeight="142.0" prefWidth="70.0" text="caramelsyrup" AnchorPane.leftAnchor="287.0" AnchorPane.topAnchor="287.2">
+      <Button fx:id="caramelsyrup" contentDisplay="GRAPHIC_ONLY" layoutX="287.0" layoutY="287.2" mnemonicParsing="false" prefHeight="142.0" prefWidth="63.0" text="caramelsyrup" AnchorPane.leftAnchor="287.0" AnchorPane.topAnchor="287.0">
          <styleClass>
             <String fx:value="caramelsyrupBtn" />
             <String fx:value="ingredientBtn" />
          </styleClass>
       </Button>
-      <Button fx:id="matchapowder" contentDisplay="GRAPHIC_ONLY" layoutX="400.8" layoutY="346.6" mnemonicParsing="false" prefHeight="78.0" prefWidth="59.0" text="matchapowder" AnchorPane.bottomAnchor="275.8" AnchorPane.leftAnchor="400.8" AnchorPane.rightAnchor="541.5999999999999" AnchorPane.topAnchor="346.6">
+      <Button fx:id="matchapowder" contentDisplay="GRAPHIC_ONLY" layoutX="435.4" layoutY="346.4" mnemonicParsing="false" prefHeight="78.0" prefWidth="59.0" text="matchapowder" AnchorPane.bottomAnchor="276.8" AnchorPane.leftAnchor="435.4" AnchorPane.rightAnchor="507.0" AnchorPane.topAnchor="346.4">
          <styleClass>
             <String fx:value="matchapowderBtn" />
             <String fx:value="ingredientBtn" />
@@ -231,5 +231,11 @@
             </DropShadow>
          </effect>
       </Circle>
+      <Button fx:id="whippedcream" contentDisplay="GRAPHIC_ONLY" layoutX="379.0" layoutY="294.0" mnemonicParsing="false" prefHeight="138.0" prefWidth="70.0">
+         <styleClass>
+            <String fx:value="whippedcreamBtn" />
+            <String fx:value="ingredientBtn" />
+         </styleClass>
+      </Button>
    </children>
 </AnchorPane>
