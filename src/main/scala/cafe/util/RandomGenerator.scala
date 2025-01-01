@@ -7,19 +7,19 @@ object RandomGenerator:
 
   //menu items
   val menuItems: List[Item] = List(
-    Item ("Latte", 6.00, List("cup", "espresso", "milk")),
-    Item ("Iced Latte", 6.50, List("glass", "espresso", "milk", "ice")),
-    Item ("Espresso", 4.00, List("cup","espresso")),
-    Item ("Mocha", 7.00, List("cup","espresso", "milk", "chocolatesyrup")),
-    Item ("Iced Mocha", 7.50, List("glass","espresso", "milk", "chocolatesyrup", "ice", "whippedcream")),
-    Item ("Caramel Macchiato",  7.00, List("cup","espresso", "milk", "caramelsyrup")),
-    Item ("Iced Caramel Macchiato",  7.00, List("glass", "espresso", "milk", "caramelsyrup", "ice", "whippedcream")),
-    Item ("Matcha Latte", 8.00, List("cup","espresso", "milk", "matchapowder")),
-    Item ("Iced Matcha Latte", 8.50, List("glass", "espresso", "milk", "matchapowder", "ice")),
-    Item ("Pistachio Cake", 12.00,List ("pistachiocake")),
-    Item ("Strawberry Shortcake", 12.00, List("strawberryshortcake")),
-    Item ("Croissant", 8.00,List("croissant")),
-    Item ("Tiramisu", 11.00,List("tiramisu"))
+    Item ("Latte", 6.00, List("cup", "espresso", "milk"),"cafe.media/latte.png"),
+    Item ("Iced Latte", 6.50, List("glass", "espresso", "milk", "ice"), "cafe.media/icedlatte.png"),
+    Item ("Espresso", 4.00, List("espresso"),"cafe.media/espresso.png"),
+    Item ("Mocha", 7.00, List("cup","espresso", "milk", "chocolatesyrup"),"cafe.media/mocha.png"),
+    Item ("Iced Mocha", 7.50, List("glass","espresso", "milk", "chocolatesyrup", "ice", "whippedcream"),"cafe.media/icedmocha.png"),
+    Item ("Caramel Macchiato",  7.00, List("cup","espresso", "milk", "caramelsyrup"),"cafe.media/caramelmacchiato.png"),
+    Item ("Iced Caramel Macchiato",  7.00, List("glass", "espresso", "milk", "caramelsyrup", "ice", "whippedcream"),"cafe.media/icedcaramelmacchiato.png"),
+    Item ("Matcha Latte", 8.00, List("cup","espresso", "milk", "matchapowder"),"cafe.media/matchalatte.png"),
+    Item ("Iced Matcha Latte", 8.50, List("glass", "espresso", "milk", "matchapowder", "ice"),"cafe.media/icedmatchalatte.png"),
+    Item ("Pistachio Cake", 12.00,List ("pistachiocake"),"cafe.media/pistachiocake.png"),
+    Item ("Strawberry Shortcake", 12.00, List("strawberryshortcake"),"cafe.media/strawberryshortcake.png"),
+    Item ("Croissant", 8.00,List("croissant"),"cafe.media/croissant.png"),
+    Item ("Tiramisu", 11.00,List("tiramisu"),"cafe.media/tiramisu.png")
   )
 
   private val customerNamesPics: List[List[String]] = List(

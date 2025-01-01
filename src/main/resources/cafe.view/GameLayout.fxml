@@ -177,6 +177,12 @@
             <String fx:value="ingredientBtn" />
          </styleClass>
       </Button>
+      <Button fx:id="whippedcream" contentDisplay="GRAPHIC_ONLY" layoutX="379.0" layoutY="294.0" mnemonicParsing="false" prefHeight="138.0" prefWidth="70.0" text="whippedcream">
+         <styleClass>
+            <String fx:value="whippedcreamBtn" />
+            <String fx:value="ingredientBtn" />
+         </styleClass>
+      </Button>
       <HBox fx:id="tray" alignment="BOTTOM_CENTER" layoutX="251.2" layoutY="414.2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="151.0" prefWidth="499.0" styleClass="stackPane" AnchorPane.bottomAnchor="134.60000000000002" AnchorPane.leftAnchor="251.2" AnchorPane.rightAnchor="250.4000000000001">
          <children>
             <ImageView fx:id="item1" fitHeight="125.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true" />
@@ -231,11 +237,5 @@
             </DropShadow>
          </effect>
       </Circle>
-      <Button fx:id="whippedcream" contentDisplay="GRAPHIC_ONLY" layoutX="379.0" layoutY="294.0" mnemonicParsing="false" prefHeight="138.0" prefWidth="70.0">
-         <styleClass>
-            <String fx:value="whippedcreamBtn" />
-            <String fx:value="ingredientBtn" />
-         </styleClass>
-      </Button>
    </children>
 </AnchorPane>

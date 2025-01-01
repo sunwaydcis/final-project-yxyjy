@@ -1,28 +1,25 @@
 package cafe.controller
 
-import cafe.model.Customer
-import cafe.model.status.expired
-import cafe.util.Sound
-import scalafx.scene as sfxs
-import javafx.scene as jfxs
 import cafe.model.{Order, ingredients}
+import cafe.util.Sound
 import javafx.fxml.{FXML, FXMLLoader}
-import scalafx.Includes.*
-import scalafx.event.ActionEvent
+import javafx.scene as jfxs
 import javafx.scene.control.{Button, Label, MenuItem}
 import javafx.scene.image.{Image, ImageView}
 import javafx.scene.layout.HBox
 import javafx.util.Duration
-import scalafx.animation.{FadeTransition, ParallelTransition, PauseTransition, TranslateTransition}
+import scalafx.Includes.*
+import scalafx.animation.PauseTransition
 import scalafx.collections.ObservableBuffer
-import scalafx.scene.{Node, Parent, Scene}
+import scalafx.event.ActionEvent
+import scalafx.scene as sfxs
+import scalafx.scene.Scene
 import scalafx.stage.{Modality, Stage}
-import java.io.File
-import scala.collection.mutable.ArrayBuffer
 
 @FXML
 class GameLayoutController:
 
+  //fxml
   @FXML private var tray: HBox = _
   @FXML private var item1Toggle:Button = _
   @FXML private var item2Toggle:Button = _
@@ -61,8 +58,6 @@ class GameLayoutController:
   @FXML private var whippedcream: Button = _
 
   private var currentItem: Int = 1
-  private var playerItemObserve1: ObservableBuffer[String] = ObservableBuffer()
-  private var playerItemObserve2: ObservableBuffer[String] = ObservableBuffer()
   private var playerItem1: List[String] = List()
   private var playerItem2: List[String] = List()
   private var playerItem1Desc: String = ""
@@ -146,7 +141,7 @@ class GameLayoutController:
         item1.setImage(null)
       if playerItem1 != null then
         playerItem1 = List()
-        playerItem1Desc= ("")
+        playerItem1Desc= ""
       itemDescription.setText("")
 
     if currentItem == 2 then
@@ -154,7 +149,7 @@ class GameLayoutController:
         item2.setImage(null)
       if playerItem2 != null then
         playerItem2 = List()
-        playerItem2Desc = ("")
+        playerItem2Desc = ""
       itemDescription.setText("")
 
   //set up click action for each ingredient
@@ -170,14 +165,29 @@ class GameLayoutController:
           if currentItem == 1 then
             item1.setImage(image)
             playerItem1 = playerItem1 :+ ingredientName
+            observeItem(1)
             itemDescriptionText()
           else if currentItem == 2 then
             item2.setImage(image)
             playerItem2 = playerItem2 :+ ingredientName
+            observeItem(2)
             itemDescriptionText()
 
         case None =>
           println(s"Ingredient $ingredientName not found")
+
+  //check if player prepared item matches final item
+  private def observeItem(itemNumber: Int): Unit =
+    val (playerItem, recipeItem, imageView) = itemNumber match
+      case 1 => (playerItem1, gameCtrl.currentOrder.items.head, item1)
+      case 2 => (playerItem2, gameCtrl.currentOrder.items(1), item2)
+
+    if playerItem.sorted == recipeItem.ingredients.sorted then
+      println("Match found!")
+      // Update the ImageView with the final image
+      imageView.setImage(new Image(recipeItem.finalPic))
+      println("No Match")
+
 
   //serve order, update customers and orders
   @FXML private def serveOrderBtn(): Unit =
