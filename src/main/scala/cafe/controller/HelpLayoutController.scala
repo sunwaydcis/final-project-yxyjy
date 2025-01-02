@@ -16,13 +16,3 @@ import java.io.File
 class HelpLayoutController:
   @FXML var nextPage: Button = _
   @FXML var prevPage: Button = _
-
-  private val popSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/pop.mp3").toURI.toString))
-
-  def playPopSound(): Unit =
-    try
-      popSound.stop()
-      popSound.play()
-    catch
-      case e: Exception =>
-        println(s"Error playing sound: ${e.getMessage}")

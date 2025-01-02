@@ -183,10 +183,8 @@ class GameLayoutController:
       case 2 => (playerItem2, gameCtrl.currentOrder.items(1), item2)
 
     if playerItem.sorted == recipeItem.ingredients.sorted then
-      println("Match found!")
-      // Update the ImageView with the final image
+      Sound.playCorrectSound()
       imageView.setImage(new Image(recipeItem.finalPic))
-      println("No Match")
 
 
   //serve order, update customers and orders

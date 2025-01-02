@@ -34,9 +34,11 @@ object CafeGame extends JFXApp3:
       Sound.stopBgm()
       loadGameLayout()
     welcomeController.helpBtn.onAction = (_: ActionEvent) =>
-      Sound.stopBgm()
       Sound.playPopSound()
       loadHelp1Layout()
+    welcomeController.cookbookBtn.onAction = (_:ActionEvent) =>
+      Sound.playPopSound()
+      loadCookbookLayout()
 
     roots = Option(loader.getRoot[jfxs.layout.AnchorPane])
     stage = new PrimaryStage():
@@ -56,6 +58,8 @@ object CafeGame extends JFXApp3:
       loadWelcomeLayout()
     control.howToPlayBtn.onAction = (_:ActionEvent) =>
       loadHelp1Layout()
+    control.viewCookbookBtn.onAction = (_:ActionEvent) =>
+      loadCookbookLayout()
     gameController.setGameOverCallback(() => loadEndLayout())
     gameController.startGame()
 
@@ -91,9 +95,8 @@ object CafeGame extends JFXApp3:
     val control = loader.getController[HelpLayoutController]
 
     control.nextPage.onAction = (_:ActionEvent) =>
-      control.playPopSound()
+      Sound.playPopSound()
       loadHelp2Layout()
-
 
     if popupStage == null then
       popupStage = new Stage():
@@ -112,15 +115,29 @@ object CafeGame extends JFXApp3:
     val control = loader.getController[HelpLayoutController]
 
     control.prevPage.onAction = (_: ActionEvent) =>
-      control.playPopSound()
+      Sound.playPopSound()
       loadHelp1Layout()
-
 
     if popupStage == null then
       popupStage = new Stage():
         initModality(Modality.ApplicationModal)
     popupStage.scene = new Scene(helpRoot)
     popupStage.showAndWait()
+
+  private def loadCookbookLayout(): Unit =
+    val rootResource = getClass.getResource("/cafe.view/CookbookLayout.fxml")
+    val loader = new FXMLLoader(rootResource)
+    loader.load()
+
+    val cookbookRoot = loader.getRoot[jfxs.Parent]
+
+    if popupStage == null then
+      popupStage = new Stage():
+        initModality(Modality.ApplicationModal)
+    popupStage.scene = new Scene(cookbookRoot)
+
+    popupStage.showAndWait()
+
 
 
 end CafeGame

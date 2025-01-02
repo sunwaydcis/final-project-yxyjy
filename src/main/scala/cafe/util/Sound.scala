@@ -5,11 +5,12 @@ import scalafx.scene.media.{Media, MediaPlayer}
 import java.io.File
 
 object Sound:
-  val clickSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/click.mp3").toURI.toString))
-  val popSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/pop.mp3").toURI.toString))
-  val kachingSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/kaching.mp3").toURI.toString))
-  val welcomeSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/welcome.mp3").toURI.toString))
-  val bgm: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/bgm.mp3").toURI.toString))
+  private val clickSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/click.mp3").toURI.toString))
+  private val popSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/pop.mp3").toURI.toString))
+  private val kachingSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/kaching.mp3").toURI.toString))
+  private val welcomeSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/welcome.mp3").toURI.toString))
+  private val correctSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/correct.mp3").toURI.toString))
+  private val bgm: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/bgm.mp3").toURI.toString))
 
   def playClickSound(): Unit =
     try
@@ -39,6 +40,14 @@ object Sound:
     try
       welcomeSound.stop()
       welcomeSound.play()
+    catch
+      case e: Exception =>
+        println(s"Error playing sound: ${e.getMessage}")
+
+  def playCorrectSound(): Unit =
+    try
+      correctSound.stop()
+      correctSound.play()
     catch
       case e: Exception =>
         println(s"Error playing sound: ${e.getMessage}")
