@@ -44,6 +44,15 @@
     -fx-background-color: #ffefd4;
 }
 
+.cookbookBackground{
+    -fx-background-image: url(../cafe.media/cookbookbg.png);
+    -fx-background-size: 110% 100%;
+    -fx-background-position: center -24px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: #ffefd4;
+
+}
+
 .welcomeBtn{
     -fx-background-color: #ffefd4;
     -fx-border-width: 3px;
@@ -115,6 +124,7 @@
     -fx-text-fill:#93a07d;
     -fx-font-weight: 700;
     -fx-padding: 2px 10px;
+    -fx-graphic: Image("cafe.media/pause.png");
 }
 
 .menuBarLink.hover{

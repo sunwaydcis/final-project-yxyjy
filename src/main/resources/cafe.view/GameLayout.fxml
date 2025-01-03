@@ -39,7 +39,7 @@
             </ImageView>
          </children>
       </HBox>
-      <MenuBar prefHeight="58.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <MenuBar prefHeight="58.0" prefWidth="900.0" styleClass="menuBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" styleClass="menuBarLink" text="Pause">
                <items>
@@ -49,10 +49,6 @@
                </items>
           </Menu>
         </menus>
-         <styleClass>
-            <String fx:value="menuBarLink" />
-            <String fx:value="menuBar" />
-         </styleClass>
       </MenuBar>
       <Pane layoutX="27.2" layoutY="41.0" prefHeight="69.0" prefWidth="844.0" styleClass="statusPane" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="29.0" AnchorPane.topAnchor="41.0">
          <children>
