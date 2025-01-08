@@ -44,6 +44,7 @@ class GameLayoutController:
   @FXML var backToHomeBtn: MenuItem = _
   @FXML var viewCookbookBtn: MenuItem = _
   @FXML var howToPlayBtn: MenuItem = _
+  @FXML var aboutBtn: MenuItem = _
 
   //Ingredient FXML
   @FXML private var milk: Button = _
@@ -79,7 +80,7 @@ class GameLayoutController:
     gameCtrl.setupTimeUpdateListener(updateTimeLeft)
     gameCtrl.setupOrderExpiredListener(order => updateExpiredOrderText(order))
 
-  /** 
+  /**
    *  Initialize method
    *  click action setup for all ingredient buttons
    *  currentlyMakingText set to 'Game Start!'
@@ -163,7 +164,7 @@ class GameLayoutController:
         playerItem2Desc = ""
       itemDescription.setText("")
 
-  /** 
+  /**
    *  Set up click action for all ingredient buttons
    *  when ingredient button is clicked, the button text is set as ingredientName, and the name is found in the defined ingredients list
    *  if the selected ingredient is found, its corresponding image is set on the preparation tray, and added to the prepared item list
@@ -211,7 +212,7 @@ class GameLayoutController:
    * sets the playerPreparedOrder for the gameController
    * calls whenOrderDone method from gameController
    * sets text for moneyEarnedLabel
-   * refresh UI elements 
+   * refresh UI elements
    */
   @FXML private def serveOrderBtn(): Unit =
     Sound.playKachingSound()

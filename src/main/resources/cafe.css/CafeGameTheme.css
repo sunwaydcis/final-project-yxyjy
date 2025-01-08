@@ -44,6 +44,14 @@
     -fx-background-color: #ffefd4;
 }
 
+.aboutBackground{
+    -fx-background-image: url(../cafe.media/aboutbg.png);
+    -fx-background-size: 110% 95%;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: #ffefd4;
+}
+
 .cookbookBackground{
     -fx-background-image: url(../cafe.media/cookbookbg.png);
     -fx-background-size: 110% 100%;

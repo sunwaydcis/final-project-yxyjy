@@ -17,6 +17,7 @@ class WelcomeLayoutController:
   @FXML var startGameBtn: Button = _
   @FXML var helpBtn: Button = _
   @FXML var cookbookBtn: Button = _
+  @FXML var aboutBtn: Button = _
 
   /** initialize - play bgm */
   def initialize(): Unit =

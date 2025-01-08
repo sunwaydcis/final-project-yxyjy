@@ -22,17 +22,17 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="background" stylesheets="@../cafe.css/CafeGameTheme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cafe.controller.GameLayoutController">
    <children>
-      <HBox fx:id="activeCustomersDisplay" alignment="TOP_CENTER" layoutX="227.0" layoutY="144.8" prefHeight="183.0" prefWidth="421.0" spacing="10.0" AnchorPane.bottomAnchor="372.0" AnchorPane.leftAnchor="227.0" AnchorPane.rightAnchor="352.0" AnchorPane.topAnchor="145.0">
+      <HBox alignment="TOP_CENTER" layoutX="227.0" layoutY="144.8" prefHeight="183.0" prefWidth="421.0" spacing="10.0" AnchorPane.bottomAnchor="372.0" AnchorPane.leftAnchor="227.0" AnchorPane.rightAnchor="352.0" AnchorPane.topAnchor="145.0">
          <opaqueInsets>
             <Insets top="10.0" />
          </opaqueInsets>
          <children>
-            <ImageView fx:id="customerSlot1" fitHeight="182.0" fitWidth="138.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="182.0" fitWidth="138.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../cafe.media/3.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="customerSlot3" fitHeight="181.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="181.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../cafe.media/1.png" />
                </image>
@@ -46,6 +46,7 @@
                   <MenuItem fx:id="backToHomeBtn" mnemonicParsing="false" styleClass="menuBarLink" text="Back to Home" />
                   <MenuItem fx:id="viewCookbookBtn" mnemonicParsing="false" styleClass="menuBarLink" text="View Cookbook" />
                   <MenuItem fx:id="howToPlayBtn" mnemonicParsing="false" styleClass="menuBarLink" text="How to Play" />
+                  <MenuItem fx:id="aboutBtn" mnemonicParsing="false" styleClass="menuBarLink" text="About" />
                </items>
           </Menu>
         </menus>
@@ -85,7 +86,7 @@
       </ButtonBar>
       <Label fx:id="currentlyMakingText" layoutX="36.8" layoutY="564.0" prefHeight="62.0" prefWidth="142.0" text="Currently making: Item 1" textFill="#93a07d" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="37.0" />
       <Button fx:id="removeItem" layoutX="849.0" layoutY="615.0" mnemonicParsing="false" onAction="#removeItemBtn" prefHeight="38.0" prefWidth="122.0" styleClass="itemToggleBtn" stylesheets="@../cafe.css/CafeGameTheme.css" text="Clear Item" textAlignment="CENTER" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="51.0" />
-      <Button fx:id="serve1" layoutX="350.4" layoutY="612.0" mnemonicParsing="false" onAction="#serveOrderBtn" prefHeight="39.0" prefWidth="298.0" styleClass="serveBtn" stylesheets="@../cafe.css/CafeGameTheme.css" text="Serve!" textAlignment="CENTER" AnchorPane.bottomAnchor="49.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="352.0" AnchorPane.topAnchor="612.0">
+      <Button fx:id="serve" layoutX="350.4" layoutY="612.0" mnemonicParsing="false" onAction="#serveOrderBtn" prefHeight="39.0" prefWidth="298.0" styleClass="serveBtn" stylesheets="@../cafe.css/CafeGameTheme.css" text="Serve!" textAlignment="CENTER" AnchorPane.bottomAnchor="49.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="352.0" AnchorPane.topAnchor="612.0">
          <effect>
             <DropShadow height="10.0" offsetY="2.0" radius="4.5" width="10.0">
                <color>
