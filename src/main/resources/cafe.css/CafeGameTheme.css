@@ -124,7 +124,6 @@
     -fx-text-fill:#93a07d;
     -fx-font-weight: 700;
     -fx-padding: 2px 10px;
-    -fx-graphic: Image("cafe.media/pause.png");
 }
 
 .menuBarLink.hover{
@@ -140,7 +139,6 @@
     -fx-font-weight: 700;
     -fx-background-radius: 20px;
     -fx-font-size: 16px;
-    -fx-font-family: "handwriting";
     -fx-pref-width: 100;
     -fx-pref-height:30 ;
 }
@@ -248,7 +246,6 @@
 .whippedcreamBtn{
     -fx-background-image: url(../cafe.media/whippedcream.png);
 }
-
 
 .ingredientBtn{
     -fx-background-size: 100% 100%;

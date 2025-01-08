@@ -1,58 +1,64 @@
 package cafe.controller
 
-import cafe.model.{Customer, Item, Order}
+import cafe.model.{Customer, Order}
 import cafe.util.{RandomGenerator, Timer}
 
 import scala.collection.mutable.ArrayBuffer
-import scala.io.StdIn
 
-//GAME CONTROLLER
-//combines order controller and customer controller to handle overall game flow
+/**
+ * GAME CONTROLLER - CONTROLS GAME FLOW
+ */
 
 class GameController:
-  //initial game time and money earned
-  var gameTimeLeft: Int = 100
+  /** time left for current game - set to 100 seconds */
+  private var gameTimeLeft: Int = 100
+  /** money earned for current game - starts at 0.0 */
   var moneyEarned: Double = 0.0
+  /** total customers served for current game - starts at 0 */
   var totalCustomersServed: Int = 0
 
-  //listener to display game countdown
+  /** listener for timer updates */
   private var timeUpdateListener:Int => Unit = _
+  /** setter for timeUpdateListener */
   def setupTimeUpdateListener(listener:Int => Unit): Unit =
     timeUpdateListener = listener
-  //update time left via timer
+  /** updates gameTimeLeft and calls listener */
   def updateGameTime(elapsed:Int):Unit =
     gameTimeLeft = gameTimeLeft - elapsed
     if timeUpdateListener != null then
       timeUpdateListener(gameTimeLeft)
 
-  // generate customers queue
-  private var totalCustomerList: List[Customer] = List()
+  /** generates list of all customers in this game  - uses RandomGenerator object*/
+  private var allCustomersList: List[Customer] = List()
   for i <- 1 to 20 do
-    totalCustomerList = totalCustomerList :+ RandomGenerator.generateRandomCustomer()
+    allCustomersList = allCustomersList :+ RandomGenerator.generateRandomCustomer()
 
-  //initiate controllers
+  /** constructs OrderController instance for current game */
   val orderCtrl = new OrderController
-  val custCtrl = new CustomerController(totalCustomerList, orderCtrl)
+  /** constructs CustomerController instance for current game */
+  val custCtrl = new CustomerController(allCustomersList, orderCtrl)
 
-  //orderExpired listner
+  /** set listener to listen when an order expires */
   def setupOrderExpiredListener(updateUI: Order => Unit): Unit =
     orderCtrl.onOrderExpired = updateUI
 
-  //generate first three active customers
+  /** active customers for current game */
   var activeCustomers: ArrayBuffer[Customer] = custCtrl.activeCustomers
+  /** index for next customer for current game */
   var nextCustomerIndex: Int = custCtrl.nextCustomerIndex
 
-  //generate orders queue -  the orders of the first three customers
+  /** active orders for current game */
   var activeOrders: ArrayBuffer[Order] = orderCtrl.activeOrders
   for i <- activeCustomers.indices do
     activeOrders += activeCustomers(i).order
 
-  //initiate current order
-  var currentOrderIndex: Int = 0 //will be set by game layout controller by clicking on ui buttons
+  /** index for current order - default at 0*/
+  var currentOrderIndex: Int = 0
+  /** current order - default null */
   var currentOrder: Order = null
 
-  // a listener listens to changes in customer updates and sets the current order
   custCtrl.setCustomerUpdateListener(() => updateCurrentOrder())
+  /** to update the current order */
   def updateCurrentOrder(): Unit =
     if currentOrderIndex >= 0 && currentOrderIndex < activeOrders.size then
       this.currentOrder = activeOrders(currentOrderIndex)
@@ -60,45 +66,45 @@ class GameController:
       this.currentOrder = null
     println(currentOrder)
 
-  //generate player prepared order
+  /** stores the player's prepared order */
   var playerPreparedOrder: List[List[String]] = List(List())
 
-  //update score
+  /** updates the current game's score */
   private def updateScore(customer:Customer):Unit =
     val orderScore = customer.payment
     moneyEarned += orderScore
-    Math.round(moneyEarned * 100.0) / 100.0
-    println(moneyEarned)
+    moneyEarned = Math.round(moneyEarned * 100.0) / 100.0
 
-  //when order is served
+  /**
+   * Handles operations when an order is done
+   * calls OrderController to validate order
+   * calls update score method
+   * reset player's prepared order
+   * calls customerLeaves method
+   * increments totalCustomersServed by 1
+   */
   def whenOrderDone(): Unit =
-    println(s"You prepared: $playerPreparedOrder")
-    orderCtrl.orderCorrect(playerPreparedOrder, currentOrder) // checks order and sets it as done
-
-    println(s"Order served! You earned: ${currentOrder.orderTotal}")
-    updateScore(activeCustomers(currentOrderIndex)) // Update the moneyEarned
-    println(s"Updated Money Earned: $moneyEarned")
-
-    playerPreparedOrder = List(List()) //reset player prepared order
-  
-    custCtrl.customerLeaves(currentOrderIndex)//make customer leave
-    println("Customer has left.")
-  
-    println(s"After order done - Active Orders: $activeOrders")
-    println(s"After order done - Active Customers: ${custCtrl.activeCustomers}")
+    orderCtrl.orderCorrect(playerPreparedOrder, currentOrder)
+    updateScore(activeCustomers(currentOrderIndex))
+    playerPreparedOrder = List(List())
+    custCtrl.customerLeaves(currentOrderIndex)
     totalCustomersServed +=1
 
-  //game start
+  /** start the game - initiate the timer in an asynchronous thread to allow it to run in the background
+   *  reference - solution found on stackoverflow
+   */
   def startGame(): Unit =
-    // Start the timer asynchronously
     new Thread(() => Timer.startTimer(gameTimeLeft, orderCtrl, custCtrl, this)).start()
 
+  /** game over listener - referenced from chatgpt */
   private var gameOver:() => Unit = () => ()
+
+  /** set callback for game over listener */
   def setGameOverCallback(callback: () => Unit): Unit =
     gameOver = callback
 
+  /** calls gameOver method - to be called in Timer*/
   def endGame(): Unit =
-    println("Ending game...")
     gameOver()
 
 

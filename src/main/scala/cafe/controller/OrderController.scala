@@ -2,94 +2,130 @@ package cafe.controller
 
 import cafe.model.{Customer, Item, Order}
 import cafe.model.status.{done, expired, inProgress}
-
 import scala.collection.mutable.ArrayBuffer
 import scala.io.StdIn
 
-//ORDER CONTROLLER
-//handles order-related operations, and validating player's orders.
-
+/**
+ * ORDER CONTROLLER - HANDLES ORDER-RELATED OPERATIONS
+ */
 class OrderController:
-
-  //prepare and handle active orders
+  /** ArrayBuffer to hold a list of 3 active orders */
   var activeOrders: ArrayBuffer[Order] = ArrayBuffer()
 
-  private def isOrderActive(order:Order): Boolean = //check that order is in active orders list and order is inProgress
+  /**
+   * checks if order is active - if order is in activeOrders list and status is inProgress
+   * @param order the order to check
+   * @return true if order is active
+   */
+  private def isOrderActive(order:Order): Boolean = 
     if activeOrders.contains(order) && order.orderStatus == inProgress then
       true
     else
       false
 
-  def addOrder(order: Order): Unit = //add order to activeOrders
+  /** add order to activeOrders */
+  def addOrder(order: Order): Unit = 
     if !activeOrders.contains(order) then
       activeOrders += order
 
-  def removeOrder(index: Int): Unit = //remove order from activeOrders
+  /** remove order from activeOrders 
+   * @param index the index of the order to remove
+   */
+  private def removeOrder(index: Int): Unit =
     if index >= 0 && index < activeOrders.size then
       activeOrders.remove(index)
-      println(s"Order at index $index removed. Active orders size: ${activeOrders.size}")
 
+  /** remove customer's order from activeOrders
+   * @param order the order to remove
+   */
   def removeCustomerOrder(order:Order): Unit =
     if activeOrders.contains(order) then
       activeOrders -= order
 
+  /**
+   * set the orderTotal
+   * @param order the order to be set
+   * @param earned the amount to be set
+   */
   private def setOrderTotal(order:Order, earned: Double): Unit =
     order.orderTotal = earned
-    println(order.orderTotal)
 
-  //set order statuses
+  /**
+   * set the order status as done
+   * @param order the order to be set
+   */
   private def orderDone(order: Order): Unit =
     if isOrderActive(order) && order.orderStatus != expired then
       order.orderStatus = done
-      println("Order done!")
 
+  /**
+   * set the order status as expired
+   * @param order the order to be set
+   */
   private def orderExpired(order:Order): Unit =
     if isOrderActive(order) && order.orderTimeLeft == 0  && order.orderStatus != done then
       order.orderStatus = expired
       println("Order expired!")
 
-  //check if players made orders correctly
-  private def isItemCorrect(preparedItem: List[String], item: Item): Boolean = //validate each item
+  /**
+   * validate item prepared by player
+   * @param preparedItem the list of ingredients in the item prepared by the player
+   * @param item the menu item to be checked against
+   * @return true if ingredients in player's prepared item matches the ingredients in the menu item
+   */
+  private def isItemCorrect(preparedItem: List[String], item: Item): Boolean = 
     if preparedItem.sorted == item.ingredients.sorted then
       true
     else
       false
 
-  def orderCorrect(preparedItems: List[List[String]], order: Order): Unit = //validate entire order : how many items correct, set order as done
+  /**
+   * validate order prepared by player
+   * @param preparedItems list of items prepared by the player
+   * @param order the order to be checked against
+   * resets order total to 0
+   * checks both items in the player prepared order by calling isItemCorrect
+   * adds the price of correct items to the order total
+   * sets order status as done by calling orderDone
+   */
+  def orderCorrect(preparedItems: List[List[String]], order: Order): Unit =
     setOrderTotal(order, 0.0)
     val item1Correct = isItemCorrect(preparedItems.head, order.items.head)
     val item2Correct = isItemCorrect(preparedItems(1), order.items(1))
 
     if item1Correct then
       setOrderTotal(order, order.orderTotal + order.items.head.price)
-      println("Item served!")
-    else
-      println("item was wrong")
 
     if item2Correct then
       setOrderTotal(order, order.orderTotal + order.items(1).price)
-      println("Item served!")
-    else
-      println("item was wrong")
 
-    orderDone(order)//set order as done
+    orderDone(order)
 
-  //listener to display order countdown
+  /** listener for updates to order's time left */
   private var orderUpdateListener: Int => Unit = _
+  /** set up listener for orderUpdateListener */
   def setupOrderUpdateListener(listener: Int => Unit): Unit =
     orderUpdateListener = listener
 
-  //update the order's remaining time if order is in activeOrders list
+  /**
+   * update order's remaining time left
+   * @param order order to be updated
+   * if order is active, decrement order's time left by 1
+   * (to be called every second by the Timer
+   */
   private def updateOrderTimeLeft(order: Order): Unit =
     if order.orderTimeLeft > 0 && isOrderActive(order) then
       order.orderTimeLeft -= 1
       println("-------")
-      println(s"Order Time Left: ${order.orderTimeLeft}")
-
-
+      println(s"Order Time Left: ${order.orderTimeLeft}") // to confirm that order time is running correctly using the console 
+  
+  /** listener for when an order expires - used to update the UI */
   var onOrderExpired: Order => Unit = _
 
-  //update all active orders' status accordingly - to be called in Timer
+  /** Update active orders
+   * reiterates through active orders to list to remove expired orders or reduce the order's time left
+   * to be called every second by the Timer
+   */
   def updateActiveOrders(): Unit =
     for i <- activeOrders.indices.reverse do //using a reverse loop - recommended by chatgpt
       val activeOrder = activeOrders(i)

@@ -1,9 +1,12 @@
 package cafe.util
 
 import scalafx.scene.media.{Media, MediaPlayer}
-
 import java.io.File
 
+/**
+ * SOUND - UTILITY OBJECT TO HANDLE SOUND EFFECTS
+ * includes all sound effects and methods to play or stop sounds
+ */
 object Sound:
   private val clickSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/click.mp3").toURI.toString))
   private val popSound: MediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/cafe.media/pop.mp3").toURI.toString))

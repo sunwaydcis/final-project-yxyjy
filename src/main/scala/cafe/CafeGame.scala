@@ -14,15 +14,26 @@ import scalafx.scene.layout.AnchorPane
 import scalafx.scene.text.Font
 import scalafx.stage.{Modality, Stage}
 
+/**
+ * CAFE GAME OBJECT - MAIN APP 
+ */
 object CafeGame extends JFXApp3:
-  var roots: Option[sfxs.layout.AnchorPane] = None
+  /** the root pane for the stage - default set to none */
+  private var roots: Option[sfxs.layout.AnchorPane] = None
 
+  /** initiate GameController instance */
   private var gameController: GameController = _
+  /** initiate popup stage */
   private var popupStage: Stage = _
 
+  /** start method calls welcome layout upon running */
   override def start(): Unit =
     loadWelcomeLayout()
 
+  /**
+   * load welcome layout
+   * set button actions to navigate to other pages
+   */
   private def loadWelcomeLayout(): Unit =
     val rootResource = getClass.getResource("/cafe.view/WelcomeLayout.fxml")
     val loader = new FXMLLoader(rootResource)
@@ -46,6 +57,10 @@ object CafeGame extends JFXApp3:
       scene = new Scene():
         root = roots.get
 
+  /**
+   * load game layout
+   * set game controllers and set menu item actions
+   */
   private def loadGameLayout(): Unit =
     val rootResource = getClass.getResource("/cafe.view/GameLayout.fxml")
     val loader = new FXMLLoader(rootResource)
@@ -67,6 +82,10 @@ object CafeGame extends JFXApp3:
     stage.scene = new Scene():
       root = roots.get
 
+  /**
+   * load end layout
+   * set button action
+   */
   private def loadEndLayout(): Unit =
     val rootResource = getClass.getResource("/cafe.view/EndLayout.fxml")
     val loader = new FXMLLoader(rootResource)
@@ -86,6 +105,11 @@ object CafeGame extends JFXApp3:
     controller.totalMoneyEarnedLabel()
     controller.totalCustomersServedLabel()
 
+  /**
+   * load page 1 of how-to-play layout
+   * sets next page button action
+   * opens the popup stage
+   */
   private def loadHelp1Layout(): Unit =
     val rootResource = getClass.getResource("/cafe.view/HelpLayout.fxml")
     val loader = new FXMLLoader(rootResource)
@@ -106,6 +130,11 @@ object CafeGame extends JFXApp3:
     if !popupStage.isShowing then
       popupStage.showAndWait()
 
+  /**
+   * load page 2 of how-to-play layout
+   * sets previous page button action
+   * switches scene for popup stage
+   */
   private def loadHelp2Layout(): Unit =
     val rootResource = getClass.getResource("/cafe.view/HelpLayout2.fxml")
     val loader = new FXMLLoader(rootResource)
@@ -124,6 +153,9 @@ object CafeGame extends JFXApp3:
     popupStage.scene = new Scene(helpRoot)
     popupStage.showAndWait()
 
+  /**
+   * loads cookbook layout
+   */
   private def loadCookbookLayout(): Unit =
     val rootResource = getClass.getResource("/cafe.view/CookbookLayout.fxml")
     val loader = new FXMLLoader(rootResource)
@@ -137,7 +169,5 @@ object CafeGame extends JFXApp3:
     popupStage.scene = new Scene(cookbookRoot)
 
     popupStage.showAndWait()
-
-
 
 end CafeGame

@@ -1,19 +1,22 @@
 package cafe.controller
 
-import cafe.model.{Customer, Order}
-import cafe.model.status.{done, expired}
-import javafx.scene.image.{Image, ImageView}
+import cafe.model.Customer
+import cafe.model.status.expired
 
 import scala.collection.mutable.ArrayBuffer
 
-//handle customer related operations - customer comes into shop (becomes active - added into active list), customer leaves shop (removed from active list)
-class CustomerController(totalCustomers: List[Customer], orderCtrl : OrderController):
-  //handle active customers
-  val activeCustomers: ArrayBuffer[Customer] = ArrayBuffer(totalCustomers.take(3) *)
+/**
+ *
+ * @param allCustomers a list of all customers in the current game imported from the GameController
+ * @param orderCtrl an instance of OrderController
+ */
+class CustomerController(allCustomers: List[Customer], orderCtrl : OrderController):
+  /**Three active customers*/
+  val activeCustomers: ArrayBuffer[Customer] = ArrayBuffer(allCustomers.take(3) *)
+  /**Index to identify next customer to be added*/
   var nextCustomerIndex: Int = 3
 
-  private var customerUpdateListener: () => Unit = _
-
+  /**updates customer's satisfaction based on order's time left */
   def updateCustomerSatisfaction():Unit =
     for customer <- activeCustomers do
       val timeLeft = customer.order.orderTimeLeft
@@ -24,17 +27,28 @@ class CustomerController(totalCustomers: List[Customer], orderCtrl : OrderContro
       else if timeLeft > 0 && timeLeft <= 10 then
         customer.satisfaction = 1
 
+  /**listener for customer updates*/
+  private var customerUpdateListener: () => Unit = _
+
+  /**setter for customerUpdateListener*/
   def setCustomerUpdateListener(listener: () => Unit): Unit =
     customerUpdateListener = listener
 
-  def customerLeaves(index: Int): Unit = //to handle when an active customer leaves. and the next customer is added
-    //customer removed from active customers list
+  /** To handle when a customer leaves
+   * Remove customer from active customers list.
+   * Calls OrderController to remove the customer's associated order from active orders list.
+   * Adds next customer to the active customers list, and calls OrderController to append the customer's associated order to the active orders list
+   * Updates next customer index
+   *
+   * @param index index of customer to be handled
+   */
+  def customerLeaves(index: Int): Unit =
     if index >= 0 && index < activeCustomers.size then
       val leavingCustomer = activeCustomers.remove(index)
       orderCtrl.removeCustomerOrder(leavingCustomer.order)
 
-    if nextCustomerIndex < totalCustomers.size && activeCustomers.size < 3 then
-      val nextCustomer = totalCustomers(nextCustomerIndex)
+    if nextCustomerIndex < allCustomers.size && activeCustomers.size < 3 then
+      val nextCustomer = allCustomers(nextCustomerIndex)
       activeCustomers.append(nextCustomer)
       orderCtrl.addOrder(nextCustomer.order)
 
@@ -43,7 +57,7 @@ class CustomerController(totalCustomers: List[Customer], orderCtrl : OrderContro
     if customerUpdateListener != null then
       customerUpdateListener()
 
-  //manage customer queue
+  /**Iterates through active customers list to remove any expired order - method is called in Timer object every second */
   def handleCustomerQueue (): Unit =
     for i <- activeCustomers.indices.reverse do
       val activeCust = activeCustomers(i)

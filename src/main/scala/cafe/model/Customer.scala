@@ -1,23 +1,42 @@
 package cafe.model
 
-//each customer orders two items, and starts with a happy satisfaction. satisfaction reduces by 1 level every 5s starting from 15s, and payment is calculated based on satisfaction level - 3 = orderTotal * 1.2, 2 = orderTotal * 1, 1 = orderTotal*0.8
-class Customer(val name: String, val order: Order, val charPic: String):
-    var satisfaction: Int = 3
+/**
+ * Represents a customer
+ *
+ * @param name the name of the customer
+ * @param order the order of the customer consisting of two items
+ */
 
-    def payment:Double =
-      satisfaction match
-        case 1 => Math.round(order.orderTotal*0.8 * 100.0) / 100.0
-        case 2 => Math.round(order.orderTotal*1 * 100.0) / 100.0
-        case 3 => Math.round(order.orderTotal*1.2 * 100.0) / 100.0
+class Customer(val name: String, val order: Order):
+  /**The satisfaction level of the customer, the default being 3*/
+  var satisfaction: Int = 3
+
+  /**Calculates payment based on the customer's satisfaction level*/
+  def payment:Double =
+    satisfaction match
+      case 1 => Math.round(order.orderTotal*0.8 * 100.0) / 100.0
+      case 2 => Math.round(order.orderTotal*1 * 100.0) / 100.0
+      case 3 => Math.round(order.orderTotal*1.2 * 100.0) / 100.0
 
 
-//always gives 5 dollars less
-class StingyCustomer ( _name:String, _order:Order, _charPic: String) extends Customer (_name, _order, _charPic):
+/**
+ * Extends Customer class, represents a Stingy type customer that always pays $5 less
+ *
+ * @param _name the name of the customer
+ * @param _order the order of the customer
+ */
+class StingyCustomer ( _name:String, _order: Order) extends Customer (_name, _order):
+  /**Overrides Customer's payment method, subtracts $5 from calculated payment*/
   override def payment: Double =
     super.payment - 5
 
-//pays an extra 10% tip
-class VIPCustomer ( _name:String, _order:Order, _charPic: String) extends Customer (_name, _order, _charPic):
+/**
+ *
+ * @param _name the name of the customer
+ * @param _order the order of the customer
+ */
+class VIPCustomer ( _name:String, _order:Order) extends Customer (_name, _order):
+  /**Overrides Customer's payment method, adds a 10% tip to the calculated payment*/
   override def payment: Double =
     super.payment*1.1
 

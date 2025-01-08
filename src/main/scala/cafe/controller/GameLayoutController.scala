@@ -16,10 +16,13 @@ import scalafx.scene as sfxs
 import scalafx.scene.Scene
 import scalafx.stage.{Modality, Stage}
 
+/**
+ * GAME LAYOUT CONTROLLER - FXML CONTROLLER FOR MAIN GAME UI
+ */
 @FXML
 class GameLayoutController:
 
-  //fxml
+  //FXML
   @FXML private var tray: HBox = _
   @FXML private var item1Toggle:Button = _
   @FXML private var item2Toggle:Button = _
@@ -42,7 +45,7 @@ class GameLayoutController:
   @FXML var viewCookbookBtn: MenuItem = _
   @FXML var howToPlayBtn: MenuItem = _
 
-  //ingredient fxml
+  //Ingredient FXML
   @FXML private var milk: Button = _
   @FXML private var espresso: Button =_
   @FXML private var cup: Button = _
@@ -57,22 +60,34 @@ class GameLayoutController:
   @FXML private var tiramisu: Button =_
   @FXML private var whippedcream: Button = _
 
+  /** selection for current item in the order - default set to 1 */
   private var currentItem: Int = 1
+  /** first item's ingredients prepared by player */
   private var playerItem1: List[String] = List()
+  /** second item's ingredients prepared by player */
   private var playerItem2: List[String] = List()
+  /** first item's description (ingredients concatenated into string) prepared by player  */
   private var playerItem1Desc: String = ""
+  /** second item's description (ingredients concatenated into string) prepared by player  */
   private var playerItem2Desc: String = ""
 
-  //game controller setup
+  /** game controller instance */
   private var gameCtrl: GameController = _
+  /** set game controller for current game */
   def setGameController(controller: GameController): Unit =
     this.gameCtrl = controller
     gameCtrl.setupTimeUpdateListener(updateTimeLeft)
     gameCtrl.setupOrderExpiredListener(order => updateExpiredOrderText(order))
 
-  //initialize
+  /** 
+   *  Initialize method
+   *  click action setup for all ingredient buttons
+   *  currentlyMakingText set to 'Game Start!'
+   *  moneyEarnedLabel reset to 0.00
+   *  play BGM
+   *  set button actions for order preview buttons and item toggle buttons
+   */
   def initialize(): Unit =
-    println("initialize() called")
     val ingredientButtons: List[Button] = List(milk, espresso, cup, caramelsyrup, chocolatesyrup, croissant, glass, ice, matchapowder, pistachiocake, strawberryshortcake, tiramisu, whippedcream)
 
     for ingredient <- ingredientButtons do
@@ -88,7 +103,7 @@ class GameLayoutController:
     item1Toggle.onAction = (_: ActionEvent) => itemToggle(1)
     item2Toggle.onAction = (_: ActionEvent) => itemToggle(2)
 
-  //toggle between two items
+  /** switch between two items in the order */
   private def itemToggle(item: Int): Unit =
     currentItem = item
     currentlyMakingText.setText(s"Currently making: Item $item")
@@ -99,9 +114,8 @@ class GameLayoutController:
 
     Sound.playPopSound()
 
-  //select and view orders
+  /** select order from active orders list and display summary using currentOrderText label */
   private def selectOrder(index: Int): Unit =
-
     Sound.playPopSound()
     gameCtrl.currentOrderIndex = index
     gameCtrl.updateCurrentOrder()
@@ -109,10 +123,8 @@ class GameLayoutController:
     val item2Name: String = gameCtrl.currentOrder.items(1).name
     val custName:String = gameCtrl.activeCustomers(gameCtrl.currentOrderIndex).name
     currentOrderText.setText(custName + "'s order: "+ item1Name + ", "+ item2Name)
-    println(gameCtrl.currentOrderIndex)
-    println(gameCtrl.currentOrder)
 
-  //view full order (calls OrderLayout)
+  /** views full order by calling OrderLayout popup */
   @FXML private def showOrderPreview():Unit=
     Sound.playPopSound()
     val resource = getClass.getResource("/cafe.view/OrderLayout.fxml")
@@ -132,10 +144,9 @@ class GameLayoutController:
     control.setOrder(gameCtrl.currentOrder)
     popup.showAndWait()
 
-  //clear item from tray
+  /** clear item from tray (remove image, clear prepared item list and text display) */
   @FXML private def removeItemBtn(): Unit =
     Sound.playPopSound()
-
     if currentItem == 1 then
       if item1 != null then
         item1.setImage(null)
@@ -152,7 +163,12 @@ class GameLayoutController:
         playerItem2Desc = ""
       itemDescription.setText("")
 
-  //set up click action for each ingredient
+  /** 
+   *  Set up click action for all ingredient buttons
+   *  when ingredient button is clicked, the button text is set as ingredientName, and the name is found in the defined ingredients list
+   *  if the selected ingredient is found, its corresponding image is set on the preparation tray, and added to the prepared item list
+   *  with each ingredient added, the observeItem method is called to validate the ingredients, and the description text is updated
+   */
   private def setupIngredientClick(ingredient: Button): Unit =
     ingredient.onAction = (_: ActionEvent) =>
       val ingredientName = ingredient.getText
@@ -176,7 +192,11 @@ class GameLayoutController:
         case None =>
           println(s"Ingredient $ingredientName not found")
 
-  //check if player prepared item matches final item
+  /**
+   * Check if the player's prepared ingredients match the recipe from the cookbook
+   * @param itemNumber the number of the item observed (either 1 or 2)
+   * if the player's prepared item matches the recipe, set image to the final image
+   */
   private def observeItem(itemNumber: Int): Unit =
     val (playerItem, recipeItem, imageView) = itemNumber match
       case 1 => (playerItem1, gameCtrl.currentOrder.items.head, item1)
@@ -186,22 +206,23 @@ class GameLayoutController:
       Sound.playCorrectSound()
       imageView.setImage(new Image(recipeItem.finalPic))
 
-
-  //serve order, update customers and orders
+  /**
+   * Handles click action when serve button is clicked
+   * sets the playerPreparedOrder for the gameController
+   * calls whenOrderDone method from gameController
+   * sets text for moneyEarnedLabel
+   * refresh UI elements 
+   */
   @FXML private def serveOrderBtn(): Unit =
     Sound.playKachingSound()
-
     gameCtrl.playerPreparedOrder = List(playerItem1, playerItem2)
-    println(gameCtrl.playerPreparedOrder)
     gameCtrl.whenOrderDone()
     moneyEarnedLabelText()
-
     refreshUI()
 
   //===UI UPDATES====
-  //refresh UI
+  /** reset UI elements (labels, images etc.) */
   private def refreshUI(): Unit =
-    // clear fields
     if playerItem1 != null then
       playerItem1 = List()
       playerItem1Desc = ""
@@ -219,7 +240,7 @@ class GameLayoutController:
     currentOrderText.setText("Customer's order:")
     itemDescription.setText("")
 
-  //update ingredients selected by the players
+  /** sets item description text */
   private def itemDescriptionText(): Unit =
     if currentItem == 1 then
       playerItem1Desc = "Item 1: " + playerItem1.mkString(" ")
@@ -228,7 +249,7 @@ class GameLayoutController:
       playerItem2Desc = "Item 2: " + playerItem2.mkString(" ")
       itemDescription.setText(playerItem2Desc)
 
-  //update expired order
+  /** show that orders have expired */
   private def updateExpiredOrderText(order:Order): Unit =
     val item1 = order.items.head.name
     val item2 = order.items(1).name
@@ -238,11 +259,11 @@ class GameLayoutController:
     resetMessage.onFinished = _ => expiredOrderText.setText("Time is ticking...")
     resetMessage.play()
 
-  //update money earned
+  /** updates text for moneyEarnedLabel */
   private def moneyEarnedLabelText(): Unit =
     moneyEarnedLabel.setText(gameCtrl.moneyEarned.toString)
 
-  //update timer UI
+  /** updates timer countdown */
   private def updateTimeLeft(time: Int): Unit =
     timeLeftLabel.setText(time.toString)
 
