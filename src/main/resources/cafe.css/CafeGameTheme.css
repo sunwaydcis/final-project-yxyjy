@@ -61,6 +61,16 @@
 
 }
 
+.pauseBtn{
+    -fx-background-image: url(../cafe.media/pause.png);
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: none;
+    -fx-cursor: pointer;
+    -fx-content-display: GRAPHIC_ONLY;
+    -fx-padding-right: 10px;
+}
+
 .welcomeBtn{
     -fx-background-color: #ffefd4;
     -fx-border-width: 3px;

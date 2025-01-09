@@ -10,6 +10,12 @@ import scalafx.animation
  * TIMER - UTILITY OBJECT TO HANDLE GAME TIME COUNTDOWN
  */
 object Timer:
+  /** time left (value taken from gameController */
+  var timeLeft: Int = 0
+  /** tracks the last update time */
+  private var lastUpdateTime: Long = 0
+  /** true if game is paused */
+  private var isPaused: Boolean = false
   /**
    * To start the timer
    * @param gameTime the game time for current game
@@ -17,7 +23,7 @@ object Timer:
    * @param custCtrl the customerController instance for current game
    * @param gameCtrl the gameController instance for current game
    * when current time - last update time > 1, then last update time is set to now and game time decremented by 1
-   * updateActiveOrders, updateCustomerSatisfaction and handleCustomerQueue are all called every second
+   * updateActiveOrders, updateCustomerSatisfaction and handleCustomerQueue are all called every second if game is not paused
    * if time left is <= 0, game is over.
    */
   def startTimer(
@@ -27,13 +33,14 @@ object Timer:
                 gameCtrl: GameController
                 ): Unit =
 
-    var timeLeft = gameTime
-    var lastUpdateTime: Long = System.nanoTime()
+    timeLeft = gameTime
+    lastUpdateTime = System.nanoTime()
+    isPaused = false
     
     timer.start()
 
     lazy val timer: AnimationTimer = AnimationTimer { now =>
-      if (now - lastUpdateTime) >= 1e9.toLong then { 
+      if !isPaused && (now - lastUpdateTime) >= 1e9.toLong then {
         lastUpdateTime = now
         timeLeft -= 1
         println(s"Game Time left: $timeLeft")
@@ -49,5 +56,16 @@ object Timer:
       }
     }
 
+  /** to pause the timer */
+  def pauseTimer(): Unit =
+    isPaused = true
+    println("Game Paused")
+
+  /** to resume the timer */
+  def resumeTimer(): Unit =
+    if isPaused then
+      isPaused = false
+      lastUpdateTime = System.nanoTime()
+    println("Game Resumed")
 
 

@@ -18,7 +18,6 @@ class Customer(val name: String, val order: Order):
       case 2 => Math.round(order.orderTotal*1 * 100.0) / 100.0
       case 3 => Math.round(order.orderTotal*1.2 * 100.0) / 100.0
 
-
 /**
  * Extends Customer class, represents a Stingy type customer that always pays $5 less
  *

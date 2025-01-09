@@ -11,7 +11,9 @@ import scala.collection.mutable.ArrayBuffer
 
 class GameController:
   /** time left for current game - set to 100 seconds */
-  private var gameTimeLeft: Int = 100
+  private var gameTimeLeft: Int = 200
+  /** true if game is paused */
+  var isGamePaused: Boolean = false
   /** money earned for current game - starts at 0.0 */
   var moneyEarned: Double = 0.0
   /** total customers served for current game - starts at 0 */
@@ -89,6 +91,16 @@ class GameController:
     playerPreparedOrder = List(List())
     custCtrl.customerLeaves(currentOrderIndex)
     totalCustomersServed +=1
+
+  /** pause game */
+  def pauseGame(): Unit=
+    isGamePaused = true
+    Timer.pauseTimer()
+
+  /** resume game */
+  def resumeGame(): Unit =
+    isGamePaused = false
+    Timer.resumeTimer()
 
   /** start the game - initiate the timer in an asynchronous thread to allow it to run in the background
    *  reference - solution found on stackoverflow

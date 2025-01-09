@@ -18,6 +18,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="background" stylesheets="@../cafe.css/CafeGameTheme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cafe.controller.GameLayoutController">
@@ -39,9 +40,9 @@
             </ImageView>
          </children>
       </HBox>
-      <MenuBar prefHeight="58.0" prefWidth="900.0" styleClass="menuBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <MenuBar layoutX="32.8" layoutY="-4.0" prefHeight="52.0" prefWidth="930.0" styleClass="menuBar" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="37.0" AnchorPane.topAnchor="0.0">
         <menus>
-          <Menu mnemonicParsing="false" styleClass="menuBarLink" text="Pause">
+          <Menu mnemonicParsing="false" styleClass="menuBarLink" text="Menu">
                <items>
                   <MenuItem fx:id="backToHomeBtn" mnemonicParsing="false" styleClass="menuBarLink" text="Back to Home" />
                   <MenuItem fx:id="viewCookbookBtn" mnemonicParsing="false" styleClass="menuBarLink" text="View Cookbook" />
@@ -50,6 +51,9 @@
                </items>
           </Menu>
         </menus>
+         <padding>
+            <Insets top="8.0" />
+         </padding>
       </MenuBar>
       <Pane layoutX="27.2" layoutY="41.0" prefHeight="69.0" prefWidth="844.0" styleClass="statusPane" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="29.0" AnchorPane.topAnchor="41.0">
          <children>
@@ -234,5 +238,7 @@
             </DropShadow>
          </effect>
       </Circle>
+      <Button fx:id="pauseButton" contentDisplay="GRAPHIC_ONLY" layoutX="959.0" layoutY="13.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="14.0" styleClass="pauseBtn" text="Pause" />
+      <Rectangle fx:id="overlay" arcHeight="5.0" arcWidth="5.0" fill="#00000036" height="659.0" layoutX="-1.0" layoutY="40.0" stroke="TRANSPARENT" strokeType="INSIDE" visible="false" width="1002.0" />
    </children>
 </AnchorPane>

@@ -6,6 +6,7 @@ import javafx.fxml.{FXML, FXMLLoader}
 import javafx.scene as jfxs
 import javafx.scene.control.{Button, Label, MenuItem}
 import javafx.scene.image.{Image, ImageView}
+import javafx.scene.shape.Rectangle
 import javafx.scene.layout.HBox
 import javafx.util.Duration
 import scalafx.Includes.*
@@ -41,6 +42,8 @@ class GameLayoutController:
   @FXML private var currentOrderText: Label = _
   @FXML private var expiredOrderText: Label = _
   @FXML private var moneyEarned: Label = _
+  @FXML private var pauseButton: Button = _
+  @FXML private var overlay: Rectangle = _
   @FXML var backToHomeBtn: MenuItem = _
   @FXML var viewCookbookBtn: MenuItem = _
   @FXML var howToPlayBtn: MenuItem = _
@@ -94,7 +97,7 @@ class GameLayoutController:
     for ingredient <- ingredientButtons do
       setupIngredientClick(ingredient)
 
-    currentlyMakingText.setText("Game Start!")
+    currentOrderText.setText("Game Start!")
     moneyEarnedLabel.setText("0.00")
     Sound.playBgm()
 
@@ -103,6 +106,22 @@ class GameLayoutController:
     orderPreview3.onAction = (_: ActionEvent) => selectOrder(2)
     item1Toggle.onAction = (_: ActionEvent) => itemToggle(1)
     item2Toggle.onAction = (_: ActionEvent) => itemToggle(2)
+    pauseButton.onAction = (_: ActionEvent) => pauseResume()
+
+  /** pause or resume the game */
+  private def pauseResume(): Unit =
+    if pauseButton.text.value == "Pause" then
+      gameCtrl.pauseGame()
+      pauseButton.setText("Resume")
+      pauseButton.setStyle("-fx-background-image: url('/cafe.media/play.png'); -fx-background-size: cover;")
+      currentOrderText.setText("Game Paused!")
+      overlay.visible = true
+    else
+      gameCtrl.resumeGame()
+      pauseButton.setText("Pause")
+      pauseButton.setStyle("-fx-background-image: url('/cafe.media/pause.png'); -fx-background-size: cover;")
+      currentOrderText.setText("Game Resumed!")
+      overlay.visible = false
 
   /** switch between two items in the order */
   private def itemToggle(item: Int): Unit =
