@@ -36,7 +36,6 @@ class OrderLayoutController:
   @FXML private var orderItem1 : Label = _
   @FXML private var orderItem2 : Label = _
   @FXML private var orderTimeLeft: Label = _
-  @FXML private var customerPic: ImageView = _
   @FXML private var orderName: Text = _
   @FXML private var customerSatisfactionLabel: Label = _
 

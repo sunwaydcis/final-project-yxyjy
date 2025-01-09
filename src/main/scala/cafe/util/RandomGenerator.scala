@@ -7,7 +7,7 @@ import scala.util.Random
 /**
  * RANDOM GENERATOR - UTILITY OBJECT FOR RANDOM GENERATION OF ORDERS AND CUSTOMERS
  */
-object RandomGenerator:
+object  RandomGenerator:
 
   /** list of menu items (Item instances) */
   private val menuItems: List[Item] = List(

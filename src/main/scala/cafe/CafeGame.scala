@@ -1,6 +1,6 @@
 package cafe
 
-import cafe.controller.{EndLayoutController, GameController, GameLayoutController, HelpLayoutController, WelcomeLayoutController}
+import cafe.controller.*
 import cafe.util.Sound
 import javafx.fxml.FXMLLoader
 import javafx.scene as jfxs
@@ -10,8 +10,6 @@ import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.event.ActionEvent
 import scalafx.scene as sfxs
 import scalafx.scene.Scene
-import scalafx.scene.layout.AnchorPane
-import scalafx.scene.text.Font
 import scalafx.stage.{Modality, Stage}
 
 /**
