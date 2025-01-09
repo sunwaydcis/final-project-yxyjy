@@ -57,6 +57,7 @@ object Sound:
 
   def playBgm(): Unit =
     try
+      bgm.volume = 0.4
       bgm.cycleCount = 99
       bgm.play()
     catch
